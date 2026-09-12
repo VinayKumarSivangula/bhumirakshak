@@ -1,0 +1,449 @@
+{
+  "source": "ISRO-NRSC Landslide Atlas of India (1998-2022) & Geological Survey of India (GSI)",
+  "citation": "National Remote Sensing Centre (NRSC), Indian Space Research Organisation (ISRO), Dept. of Space, Govt. of India (2023)",
+  "atlasSummary": {
+    "totalMappedLandslides": 80000,
+    "timePeriod": "1998-2022",
+    "majorRegions": ["North-Western Himalayas", "North-Eastern Himalayas", "Western Ghats"]
+  },
+  "highRiskDistricts": [
+    {
+      "name": "Rudraprayag",
+      "state": "Uttarakhand",
+      "region": "North-Western Himalayas",
+      "atlasRank": 1,
+      "susceptibility": "Very High",
+      "center": { "lat": 30.2858, "lon": 78.9811 },
+      "totalMapped": 4125
+    },
+    {
+      "name": "Tehri Garhwal",
+      "state": "Uttarakhand",
+      "region": "North-Western Himalayas",
+      "atlasRank": 2,
+      "susceptibility": "Very High",
+      "center": { "lat": 30.3800, "lon": 78.4800 },
+      "totalMapped": 3840
+    },
+    {
+      "name": "Chamoli",
+      "state": "Uttarakhand",
+      "region": "North-Western Himalayas",
+      "atlasRank": 19,
+      "susceptibility": "Very High",
+      "center": { "lat": 30.4225, "lon": 79.3361 },
+      "totalMapped": 2980
+    },
+    {
+      "name": "Uttarkashi",
+      "state": "Uttarakhand",
+      "region": "North-Western Himalayas",
+      "atlasRank": 21,
+      "susceptibility": "Very High",
+      "center": { "lat": 30.7268, "lon": 78.4354 },
+      "totalMapped": 2450
+    },
+    {
+      "name": "Shimla",
+      "state": "Himachal Pradesh",
+      "region": "North-Western Himalayas",
+      "atlasRank": 14,
+      "susceptibility": "High",
+      "center": { "lat": 31.1048, "lon": 77.1734 },
+      "totalMapped": 1980
+    },
+    {
+      "name": "Mandi",
+      "state": "Himachal Pradesh",
+      "region": "North-Western Himalayas",
+      "atlasRank": 16,
+      "susceptibility": "Very High",
+      "center": { "lat": 31.7087, "lon": 76.9320 },
+      "totalMapped": 2310
+    },
+    {
+      "name": "Kullu",
+      "state": "Himachal Pradesh",
+      "region": "North-Western Himalayas",
+      "atlasRank": 18,
+      "susceptibility": "High",
+      "center": { "lat": 31.9579, "lon": 77.1095 },
+      "totalMapped": 1870
+    },
+    {
+      "name": "Wayanad",
+      "state": "Kerala",
+      "region": "Western Ghats",
+      "atlasRank": 13,
+      "susceptibility": "Very High",
+      "center": { "lat": 11.6854, "lon": 76.1320 },
+      "totalMapped": 1650
+    },
+    {
+      "name": "Idukki",
+      "state": "Kerala",
+      "region": "Western Ghats",
+      "atlasRank": 11,
+      "susceptibility": "Very High",
+      "center": { "lat": 9.8500, "lon": 76.9400 },
+      "totalMapped": 2130
+    },
+    {
+      "name": "Palakkad",
+      "state": "Kerala",
+      "region": "Western Ghats",
+      "atlasRank": 5,
+      "susceptibility": "High",
+      "center": { "lat": 10.7867, "lon": 76.6548 },
+      "totalMapped": 2890
+    },
+    {
+      "name": "Nilgiris",
+      "state": "Tamil Nadu",
+      "region": "Western Ghats",
+      "atlasRank": 25,
+      "susceptibility": "Very High",
+      "center": { "lat": 11.4102, "lon": 76.6950 },
+      "totalMapped": 1420
+    },
+    {
+      "name": "Darjeeling",
+      "state": "West Bengal",
+      "region": "North-Eastern Himalayas",
+      "atlasRank": 27,
+      "susceptibility": "Very High",
+      "center": { "lat": 27.0410, "lon": 88.2663 },
+      "totalMapped": 1780
+    },
+    {
+      "name": "Kalimpong",
+      "state": "West Bengal",
+      "region": "North-Eastern Himalayas",
+      "atlasRank": 29,
+      "susceptibility": "Very High",
+      "center": { "lat": 27.0667, "lon": 88.4667 },
+      "totalMapped": 1540
+    },
+    {
+      "name": "East Sikkim",
+      "state": "Sikkim",
+      "region": "North-Eastern Himalayas",
+      "atlasRank": 9,
+      "susceptibility": "Very High",
+      "center": { "lat": 27.3314, "lon": 88.6138 },
+      "totalMapped": 2650
+    },
+    {
+      "name": "South Sikkim",
+      "state": "Sikkim",
+      "region": "North-Eastern Himalayas",
+      "atlasRank": 8,
+      "susceptibility": "Very High",
+      "center": { "lat": 27.1667, "lon": 88.3500 },
+      "totalMapped": 2780
+    },
+    {
+      "name": "Raigad",
+      "state": "Maharashtra",
+      "region": "Western Ghats",
+      "atlasRank": 34,
+      "susceptibility": "High",
+      "center": { "lat": 18.5158, "lon": 73.1822 },
+      "totalMapped": 1120
+    },
+    {
+      "name": "Kodagu",
+      "state": "Karnataka",
+      "region": "Western Ghats",
+      "atlasRank": 38,
+      "susceptibility": "High",
+      "center": { "lat": 12.3375, "lon": 75.8069 },
+      "totalMapped": 980
+    }
+  ],
+  "historicalEvents": [
+    {
+      "id": "LS-UK-001",
+      "name": "Joshimath Slope Subsidence & Slump Zone",
+      "location": "Joshimath, Chamoli",
+      "state": "Uttarakhand",
+      "lat": 30.5564,
+      "lon": 79.5658,
+      "year": 2023,
+      "type": "Slope subsidence, Creep & Debris Slide",
+      "severity": "Severe",
+      "trigger": "Subsurface piping, heavy drainage infiltration, fragile moraine base",
+      "description": "Widely monitored zone with ground fissures, historic slope debris, and active deformation along NH-7."
+    },
+    {
+      "id": "LS-UK-002",
+      "name": "Kedarnath - Mandakini Valley Debris Flows",
+      "location": "Rudraprayag district",
+      "state": "Uttarakhand",
+      "lat": 30.7346,
+      "lon": 79.0669,
+      "year": 2013,
+      "type": "Massive Debris Flow & Rock Avalanche",
+      "severity": "Extreme",
+      "trigger": "Torrential cloudburst and moraine-dammed lake breach (Chorabari)",
+      "description": "Historic event mapping thousands of mass movements along the Mandakini and Saraswati valleys."
+    },
+    {
+      "id": "LS-UK-003",
+      "name": "Badrinath Highway (Lambagarh Landslide)",
+      "location": "Lambagarh, Chamoli",
+      "state": "Uttarakhand",
+      "lat": 30.6402,
+      "lon": 79.5183,
+      "year": 2021,
+      "type": "Debris slide & chronic slope failure",
+      "severity": "High",
+      "trigger": "Continuous monsoon rainfall on steep sheared gneiss",
+      "description": "Chronic slide zone on the Rishikesh-Badrinath Highway regularly reactivated during intense rainfall."
+    },
+    {
+      "id": "LS-UK-004",
+      "name": "Karnaprayag Highway Slide Zone",
+      "location": "Karnaprayag, Chamoli",
+      "state": "Uttarakhand",
+      "lat": 30.2600,
+      "lon": 79.2200,
+      "year": 2022,
+      "type": "Rotational slump and rockfall",
+      "severity": "High",
+      "trigger": "Toe erosion by Alaknanda & heavy precipitation",
+      "description": "Slope instability affecting settlements and road access at confluence point."
+    },
+    {
+      "id": "LS-UK-005",
+      "name": "Koteshwar - Tehri Dam Rim Landslide",
+      "location": "Tehri Garhwal",
+      "state": "Uttarakhand",
+      "lat": 30.3833,
+      "lon": 78.4833,
+      "year": 2020,
+      "type": "Rockfall and planar slide",
+      "severity": "High",
+      "trigger": "Reservoir fluctuation & intense monsoonal downpour",
+      "description": "Mapped slope failures along phyllitic rock formations bordering Tehri catchment."
+    },
+    {
+      "id": "LS-HP-001",
+      "name": "Summer Hill & Shiv Bawadi Slide",
+      "location": "Shimla",
+      "state": "Himachal Pradesh",
+      "lat": 31.1120,
+      "lon": 77.1350,
+      "year": 2023,
+      "type": "Mudslide, Debris Avalanche",
+      "severity": "Severe",
+      "trigger": "Consecutive days of extreme precipitation (>250mm) soaking weathered mica-schist",
+      "description": "Catastrophic slope failure that severed the UNESCO Kalka-Shimla railway track and temple area."
+    },
+    {
+      "id": "LS-HP-002",
+      "name": "Pandoh - Aut NH-21 Slide Stretch",
+      "location": "Mandi",
+      "state": "Himachal Pradesh",
+      "lat": 31.6700,
+      "lon": 77.0600,
+      "year": 2023,
+      "type": "Rockfall & Translational Slide",
+      "severity": "Very High",
+      "trigger": "Beas river surge, road cutting and saturated metamorphic slopes",
+      "description": "Frequent blockage zone on Chandigarh-Manali corridor during July-August monsoons."
+    },
+    {
+      "id": "LS-HP-003",
+      "name": "Kotropi Massive Landslide",
+      "location": "Kotropi, Mandi",
+      "state": "Himachal Pradesh",
+      "lat": 31.9167,
+      "lon": 76.9667,
+      "year": 2017,
+      "type": "Massive Debris Flow / Mudflow",
+      "severity": "Catastrophic",
+      "trigger": "Continuous cloudburst rainfall mobilizing thick regolith and clayey matrix",
+      "description": "Swept away 250m of National Highway 154; one of the largest recorded single flows in HP."
+    },
+    {
+      "id": "LS-HP-004",
+      "name": "Dharamshala McLeodganj Slope Creep",
+      "location": "Kangra / Dharamshala",
+      "state": "Himachal Pradesh",
+      "lat": 32.2396,
+      "lon": 76.3244,
+      "year": 2022,
+      "type": "Slope creep and road slump",
+      "severity": "Moderate",
+      "trigger": "High rainfall runoff along fragile sandstone-shale contacts",
+      "description": "Persistent road sinking and hillside cracks observed during active monsoons."
+    },
+    {
+      "id": "LS-KL-001",
+      "name": "Chooralmala - Mundakkai Disaster Complex",
+      "location": "Meppadi, Wayanad",
+      "state": "Kerala",
+      "lat": 11.5300,
+      "lon": 76.1550,
+      "year": 2024,
+      "type": "Catastrophic Debris Flow & Torrent Surge",
+      "severity": "Catastrophic",
+      "trigger": "Extreme antecedent rainfall (>570mm in 48 hrs) on steep charnockite scrap",
+      "description": "Rapid debris flow initiated in the Vellarmala hills running through Mundakkai and Chooralmala towns."
+    },
+    {
+      "id": "LS-KL-002",
+      "name": "Puthumala Landslide",
+      "location": "Puthumala, Meppadi, Wayanad",
+      "state": "Kerala",
+      "lat": 11.5200,
+      "lon": 76.1600,
+      "year": 2019,
+      "type": "Debris Avalanche & Mudflow",
+      "severity": "Severe",
+      "trigger": "Severe monsoon depression causing intense groundwater hydrostatic surge",
+      "description": "Massive hill slope detachment that buried plantation settlements and road connectivity."
+    },
+    {
+      "id": "LS-KL-003",
+      "name": "Pettimudi Landslide",
+      "location": "Rajamala, Munnar, Idukki",
+      "state": "Kerala",
+      "lat": 10.1583,
+      "lon": 77.0167,
+      "year": 2020,
+      "type": "Debris Avalanche / Rockslide",
+      "severity": "Severe",
+      "trigger": "Intense torrential rain (>300mm/day) on steep weathered scarp",
+      "description": "Hill collapsed into tea worker quarters near Eravikulam National Park border."
+    },
+    {
+      "id": "LS-KL-004",
+      "name": "Kavalappara Landslide",
+      "location": "Bhoodan Colony, Nilambur, Malappuram",
+      "state": "Kerala",
+      "lat": 11.3333,
+      "lon": 76.2833,
+      "year": 2019,
+      "type": "Soil piping, debris flow",
+      "severity": "Severe",
+      "trigger": "400mm rainfall in 24h triggering subterranean soil piping",
+      "description": "Mutthappan hill collapsed burying over 50 houses on the lower terrace."
+    },
+    {
+      "id": "LS-WB-001",
+      "name": "Paglajhora Sinking Zone",
+      "location": "Kurseong, Darjeeling",
+      "state": "West Bengal",
+      "lat": 26.8833,
+      "lon": 88.2833,
+      "year": 2020,
+      "type": "Chronic complex rotational slide & sinking zone",
+      "severity": "High",
+      "trigger": "Perennial springs, heavy monsoon infiltration in Darjeeling Gneiss",
+      "description": "One of the most famous chronic active sinking zones affecting NH-55 and the Darjeeling Toy Train."
+    },
+    {
+      "id": "LS-WB-002",
+      "name": "Tindharia Landslide Zone",
+      "location": "Darjeeling district",
+      "state": "West Bengal",
+      "lat": 26.8500,
+      "lon": 88.3300,
+      "year": 2021,
+      "type": "Debris slide & rock failure",
+      "severity": "High",
+      "trigger": "Monsoonal slope saturation on steep phyllites",
+      "description": "Active slide repeatedly damaging national highway corridor connecting Siliguri to Darjeeling."
+    },
+    {
+      "id": "LS-SK-001",
+      "name": "Nine Mile Landslide & Sinking Zone",
+      "location": "Gangtok - Mangan Highway",
+      "state": "Sikkim",
+      "lat": 27.3800,
+      "lon": 88.6200,
+      "year": 2023,
+      "type": "Rock and debris avalanche",
+      "severity": "High",
+      "trigger": "High intensity rain and Teesta basin geologic shearing",
+      "description": "Regular blockage point isolating North Sikkim during pre-monsoon and monsoon seasons."
+    },
+    {
+      "id": "LS-MH-001",
+      "name": "Irshalwadi Landslide",
+      "location": "Khalapur, Raigad",
+      "state": "Maharashtra",
+      "lat": 18.9333,
+      "lon": 73.2333,
+      "year": 2023,
+      "type": "Debris Avalanche on Deccan Trap cliff",
+      "severity": "Catastrophic",
+      "trigger": "Extremely heavy downpour (>490mm in 72h) saturating basaltic regolith",
+      "description": "Steep hill face detachment completely burying an isolated tribal hamlet."
+    },
+    {
+      "id": "LS-MH-002",
+      "name": "Malin Landslide",
+      "location": "Ambegaon, Pune",
+      "state": "Maharashtra",
+      "lat": 19.1600,
+      "lon": 73.6900,
+      "year": 2014,
+      "type": "Massive mudslide and debris avalanche",
+      "severity": "Catastrophic",
+      "trigger": "Torrential rain on terraced hillside with altered natural drainage",
+      "description": "Wiped out entire Malin village in the Western Ghats foothills."
+    },
+    {
+      "id": "LS-TN-001",
+      "name": "Coonoor - Marapalam Landslide Stretch",
+      "location": "Nilgiris",
+      "state": "Tamil Nadu",
+      "lat": 11.3500,
+      "lon": 76.7900,
+      "year": 2022,
+      "type": "Debris slide & rockfall",
+      "severity": "High",
+      "trigger": "Northeast monsoon intense bursts on steep tea plantation slopes",
+      "description": "Frequent slope disruptions on Mettupalayam-Ooty Ghat Road."
+    },
+    {
+      "id": "LS-KA-001",
+      "name": "Thora - Kakkabe Hill Collapse",
+      "location": "Virajpet, Kodagu",
+      "state": "Karnataka",
+      "lat": 12.2500,
+      "lon": 75.7500,
+      "year": 2019,
+      "type": "Mudslide & Debris Flow",
+      "severity": "High",
+      "trigger": "Continuous rain causing soil overburden saturation",
+      "description": "Major hillside detachment near Brahmagiri range affecting plantation settlements."
+    }
+  ],
+  "gsiSusceptibilityZones": [
+    {
+      "name": "North-Western Himalayas Zone",
+      "states": ["Uttarakhand", "Himachal Pradesh", "Jammu & Kashmir"],
+      "defaultSusceptibility": "Very High",
+      "hazardFactor": 1.4,
+      "bounds": { "minLat": 29.5, "maxLat": 35.0, "minLon": 74.0, "maxLon": 81.0 }
+    },
+    {
+      "name": "North-Eastern Himalayas Zone",
+      "states": ["Sikkim", "West Bengal Hills", "Assam Hills", "Arunachal Pradesh", "Meghalaya"],
+      "defaultSusceptibility": "Very High",
+      "hazardFactor": 1.4,
+      "bounds": { "minLat": 25.0, "maxLat": 29.5, "minLon": 88.0, "maxLon": 96.5 }
+    },
+    {
+      "name": "Western Ghats High Scarp Zone",
+      "states": ["Kerala", "Tamil Nadu Hills", "Karnataka Western Ghats", "Maharashtra Konkan/Ghats"],
+      "defaultSusceptibility": "High",
+      "hazardFactor": 1.25,
+      "bounds": { "minLat": 8.0, "maxLat": 20.5, "minLon": 73.0, "maxLon": 77.5 }
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "reports": [
+    {
+      "locationName": "Test Hill Road",
+      "lat": 30.5564,
+      "lon": 79.5658,
+      "signType": "ground_cracks",
+      "signTitle": "Verification Test Crack",
+      "description": "Automated test verification of report creation",
+      "severity": "High",
+      "id": "rep-1789218953669",
+      "timestamp": "2026-09-12T13:15:53.671Z"
+    },
+    {
+      "id": "rep-001",
+      "locationName": "Joshimath - Marwari Sector",
+      "lat": 30.5564,
+      "lon": 79.5658,
+      "signType": "ground_cracks",
+      "signTitle": "Fresh 2-inch wide fissure on village path",
+      "description": "Noticeable widening of ground crack after yesterday's continuous drizzle near lower terrace.",
+      "severity": "High",
+      "reportedBy": "Community Volunteer (Joshimath)",
+      "timestamp": "2026-09-12T10:30:00.000Z"
+    },
+    {
+      "id": "rep-002",
+      "locationName": "Meppadi - Chooralmala road",
+      "lat": 11.535,
+      "lon": 76.152,
+      "signType": "muddy_spring",
+      "signTitle": "Muddy brown runoff emerging from tea hill",
+      "description": "Clear spring water turned suddenly murky with fine sand after afternoon downpour.",
+      "severity": "High",
+      "reportedBy": "Estate Supervisor",
+      "timestamp": "2026-09-12T12:15:00.000Z"
+    },
+    {
+      "id": "rep-003",
+      "locationName": "Shimla - Summer Hill slope",
+      "lat": 31.111,
+      "lon": 77.136,
+      "signType": "leaning_trees",
+      "signTitle": "Pine trees tilting towards downslope drain",
+      "description": "Two pine trees visibly tilted 15 degrees downhill along with retaining stone bulge.",
+      "severity": "Moderate",
+      "reportedBy": "Local Resident",
+      "timestamp": "2026-09-11T16:45:00.000Z"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "sub-seed-01",
+      "locationName": "Wayanad, Kerala",
+      "lat": 11.6854,
+      "lon": 76.132,
+      "threshold": "HIGH",
+      "contact": "Sample Web Push Subscriber",
+      "subscribedAt": "2026-09-12T08:00:00.000Z"
+    },
+    {
+      "locationName": "Test Monitored Zone",
+      "lat": 11.6854,
+      "lon": 76.132,
+      "threshold": "HIGH",
+      "contact": "Test Device",
+      "id": "sub-1789218956494",
+      "subscribedAt": "2026-09-12T13:15:56.494Z"
+    },
+    {
+      "locationName": "Himachal Pradesh,  India",
+      "lat": 31.9292,
+      "lon": 77.1828,
+      "threshold": "HIGH",
+      "contact": "Home Device",
+      "pushEndpoint": null,
+      "id": "sub-1789223077036",
+      "subscribedAt": "2026-09-12T14:24:37.036Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "usr-resident-01",
+      "name": "Rajesh Varma",
+      "email": "resident@bhumirakshak.in",
+      "password": "password123",
+      "phone": "+91 98470 12345",
+      "role": "Resident",
+      "homeLocation": {
+        "name": "Meppadi, Wayanad, Kerala",
+        "lat": 11.55,
+        "lon": 76.13
+      },
+      "emergencyContact": {
+        "name": "Suresh Varma (Brother)",
+        "phone": "+91 98470 54321",
+        "relation": "Family"
+      },
+      "alertPreferences": {
+        "minSeverity": "HIGH",
+        "smsAlerts": true,
+        "browserPush": true
+      },
+      "savedLocations": [
+        {
+          "id": "loc-1",
+          "name": "Meppadi (Home)",
+          "lat": 11.55,
+          "lon": 76.13,
+          "addedAt": "2026-09-12T08:00:00.000Z"
+        },
+        {
+          "id": "loc-2",
+          "name": "Chooralmala Tea Estate",
+          "lat": 11.53,
+          "lon": 76.155,
+          "addedAt": "2026-09-12T08:30:00.000Z"
+        }
+      ],
+      "createdAt": "2026-09-12T08:00:00.000Z"
+    },
+    {
+      "id": "usr-volunteer-02",
+      "name": "Pooja Sharma",
+      "email": "volunteer@bhumirakshak.in",
+      "password": "password123",
+      "phone": "+91 94180 98765",
+      "role": "Panchayat Volunteer",
+      "homeLocation": {
+        "name": "Summer Hill, Shimla, HP",
+        "lat": 31.112,
+        "lon": 77.135
+      },
+      "emergencyContact": {
+        "name": "Shimla SDM Control Room",
+        "phone": "0177-2803055",
+        "relation": "Disaster Control"
+      },
+      "alertPreferences": {
+        "minSeverity": "MODERATE",
+        "smsAlerts": true,
+        "browserPush": true
+      },
+      "savedLocations": [
+        {
+          "id": "loc-3",
+          "name": "Summer Hill Sector",
+          "lat": 31.112,
+          "lon": 77.135,
+          "addedAt": "2026-09-12T09:00:00.000Z"
+        },
+        {
+          "id": "loc-4",
+          "name": "Totu Railway Crossing",
+          "lat": 31.109,
+          "lon": 77.128,
+          "addedAt": "2026-09-12T09:15:00.000Z"
+        }
+      ],
+      "createdAt": "2026-09-12T09:00:00.000Z"
+    },
+    {
+      "id": "usr-responder-03",
+      "name": "Col. Vikram Rawat",
+      "email": "responder@bhumirakshak.in",
+      "password": "password123",
+      "phone": "+91 94120 11223",
+      "role": "Disaster Response Official",
+      "homeLocation": {
+        "name": "Joshimath, Chamoli, Uttarakhand",
+        "lat": 30.5564,
+        "lon": 79.5658
+      },
+      "emergencyContact": {
+        "name": "Chamoli District Emergency Ops (DEOC)",
+        "phone": "01372-251077",
+        "relation": "Official Ops Center"
+      },
+      "alertPreferences": {
+        "minSeverity": "MODERATE",
+        "smsAlerts": true,
+        "browserPush": true
+      },
+      "savedLocations": [
+        {
+          "id": "loc-5",
+          "name": "Joshimath Subsidence Zone",
+          "lat": 30.5564,
+          "lon": 79.5658,
+          "addedAt": "2026-09-12T07:00:00.000Z"
+        },
+        {
+          "id": "loc-6",
+          "name": "Lambagarh Ghat Stretch",
+          "lat": 30.6402,
+          "lon": 79.5183,
+          "addedAt": "2026-09-12T07:30:00.000Z"
+        }
+      ],
+      "createdAt": "2026-09-12T07:00:00.000Z"
+    },
+    {
+      "id": "usr-1789226258898",
+      "name": "Sunil Joshi",
+      "email": "sunil.1789226258887@example.com",
+      "password": "securePassword123",
+      "phone": "+91 98765 11223",
+      "role": "Farmer / Plantation Worker",
+      "homeLocation": {
+        "name": "Coonoor Tea Slopes, Nilgiris",
+        "lat": 11.35,
+        "lon": 76.79
+      },
+      "emergencyContact": {
+        "name": "Rekha Joshi",
+        "phone": "+91 98765 44556",
+        "relation": "Family"
+      },
+      "alertPreferences": {
+        "minSeverity": "HIGH",
+        "smsAlerts": true,
+        "browserPush": true
+      },
+      "savedLocations": [
+        {
+          "id": "loc-home-1789226258898",
+          "name": "Coonoor Tea Slopes, Nilgiris (Home)",
+          "lat": 11.35,
+          "lon": 76.79,
+          "addedAt": "2026-09-12T15:17:38.898Z"
+        },
+        {
+          "id": "loc-1789226258914",
+          "name": "Darjeeling Tea Valley",
+          "lat": 27.041,
+          "lon": 88.2663,
+          "addedAt": "2026-09-12T15:17:38.914Z"
+        }
+      ],
+      "createdAt": "2026-09-12T15:17:38.898Z"
+    }
+  ]
+}
