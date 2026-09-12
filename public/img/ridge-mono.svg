@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" class="terrain-art" role="img" aria-label="Line illustration of a Himalayan ridge line">
+  <g fill="none" stroke="#E7E2D3" stroke-width="1.6" stroke-linejoin="round" opacity="0.9">
+    <path d="M0 150 L40 90 70 120 110 55 150 110 190 70 230 130 270 85 310 140 350 100 400 150"/>
+  </g>
+  <g fill="none" stroke="#E7E2D3" stroke-width="1" opacity="0.35">
+    <path d="M0 170 Q100 145 200 168 T400 155"/>
+    <path d="M0 185 Q100 162 200 183 T400 172"/>
+  </g>
+  <circle cx="330" cy="45" r="14" fill="none" stroke="#E7E2D3" stroke-width="1.4" opacity="0.8"/>
+</svg>

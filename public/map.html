@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Landslide Map - BhumiRakshak</title>
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .map-page-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.25rem;
+      min-height: calc(100vh - 180px);
+      padding-top: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .map-page-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .map-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .full-leaflet-container {
+      height: 100%;
+      min-height: 600px;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-card);
+      z-index: 10;
+    }
+
+    .layer-toggle-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      font-size: 0.885rem;
+    }
+
+    .layer-toggle-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: #0f172a;
+      padding: 0.55rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid #1e293b;
+      cursor: pointer;
+    }
+
+    .layer-toggle-item input {
+      accent-color: var(--sky-blue);
+      width: 16px;
+      height: 16px;
+    }
+
+    .coords-inspector-card {
+      background: #0f172a;
+      border-left: 3px solid var(--terrain-green-bright);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Emergency Helplines Banner -->
+  <header class="emergency-bar">
+    <div class="container emergency-content">
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
+      <div class="helpline-group">
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link active" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Full-Page Spatial Map Layout -->
+  <main class="container map-page-layout">
+    
+    <!-- Left Sidebar: Controls & Inspector -->
+    <aside class="map-sidebar">
+      
+      <!-- Quick Location Jump -->
+      <div class="card" style="padding: 1.15rem;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.65rem;">🗺️ Jump to Vulnerable Region</h3>
+        <div class="form-group">
+          <select id="jumpRegionSelect" style="width:100%;">
+            <option value="all">Northern India / Himalayas Overview</option>
+            <option value="joshimath">Joshimath & Chamoli (Uttarakhand)</option>
+            <option value="shimla">Shimla & Mandi (Himachal Pradesh)</option>
+            <option value="wayanad">Wayanad & Idukki (Western Ghats)</option>
+            <option value="darjeeling">Darjeeling & Kalimpong (West Bengal)</option>
+            <option value="gangtok">Gangtok & East Sikkim</option>
+            <option value="nilgiris">Ooty & Nilgiris (Tamil Nadu)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Layer Controls -->
+      <div class="card" style="padding: 1.15rem;">
+        <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.65rem;">Layers & Overlays</h3>
+        <div class="layer-toggle-group">
+          <label class="layer-toggle-item">
+            <input type="checkbox" id="layerIsro" checked>
+            <span>🔴 ISRO Historical Landslides (1998-2022)</span>
+          </label>
+          <label class="layer-toggle-item">
+            <input type="checkbox" id="layerReports" checked>
+            <span>🟡 Community Field Reports (Live Signs)</span>
+          </label>
+          <label class="layer-toggle-item">
+            <input type="checkbox" id="layerRiskRadius" checked>
+            <span>🔵 Selected Location Risk Radius (5km)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Clicked Coordinates Live Inspector -->
+      <div class="card coords-inspector-card" id="inspectorCard">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem;">📍 Click-to-Assess Slope</h4>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Click anywhere on the mountain map to calculate live Open-Meteo rainfall and terrain risk at that exact coordinate.
+        </p>
+        <div id="inspectorContent" style="font-size: 0.85rem; color: #e2e8f0;">
+          <em>No coordinate selected yet. Tap anywhere on map.</em>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Right: Big Interactive Leaflet Map -->
+    <div class="card" style="padding: 0; overflow: hidden; position: relative;">
+      <div id="fullMap" class="full-leaflet-container"></div>
+    </div>
+
+  </main>
+
+  <!-- Toast Notification Alert -->
+  <div id="toastNotification" class="toast hidden"></div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="i18n.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BhumiRakshak - Landslide Risk & Early Warning</title>
+  <title>BhumiRakshak - Himalayan Landslide Early Warning</title>
   
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,38 +19,48 @@
   <!-- Emergency Helplines Banner -->
   <header class="emergency-bar">
     <div class="container emergency-content">
-      <span class="emergency-badge">🚨 Official Emergency Helplines</span>
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
       <div class="helpline-group">
-        <a href="tel:112" class="helpline-link"><strong>112</strong> (National Emergency)</a>
-        <span class="divider">|</span>
-        <a href="tel:1078" class="helpline-link"><strong>1078</strong> (NDMA Disaster Helpline)</a>
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
       </div>
     </div>
   </header>
 
-  <!-- Top Navigation & Brand -->
+  <!-- Main Navigation Bar -->
   <nav class="main-nav">
     <div class="container nav-content">
-      <div class="brand">
+      <a href="/" class="brand">
         <div class="brand-icon">🏔️</div>
         <div>
-          <h1 class="brand-title">BhumiRakshak</h1>
-          <p class="brand-subtitle">Landslide Early Warning & Risk Assessment</p>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
         </div>
-      </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link active" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
       <div class="nav-actions">
-        <button id="btnOpenReportModal" class="btn btn-outline">
-          <span>📢</span> Report Ground Sign
-        </button>
-        <button id="btnOpenSubscribeModal" class="btn btn-primary">
-          <span>🔔</span> Get Alerts for My Area
-        </button>
-        <!-- Auth State Indicator -->
-        <a href="/login.html" id="navLoginBtn" class="btn btn-outline">
-          <span>👤</span> Sign In / Register
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
         </a>
+
         <div id="navUserBadge" class="user-badge-wrap hidden">
-          <button id="btnUserMenu" class="btn btn-outline user-btn">
+          <button id="btnUserMenu" class="btn btn-outline btn-sm user-btn">
             <span id="navUserName">👤 Account</span>
           </button>
           <div id="userDropdown" class="user-dropdown-menu hidden">
@@ -58,47 +68,50 @@
               <strong id="dropdownFullName">Citizen</strong>
               <small id="dropdownRolePhone">Resident</small>
             </div>
-            <button id="btnOpenSavedModal" class="dropdown-item">⭐ My Saved Locations</button>
-            <a href="/login.html" class="dropdown-item">🛡️ Update Safety Profile</a>
-            <button id="btnLogout" class="dropdown-item text-danger">Sign Out</button>
+            <button id="btnOpenSavedModal" class="dropdown-item" data-i18n="navSavedLocs">⭐ Saved Locations</button>
+            <a href="/login.html" class="dropdown-item" data-i18n="navMyProfile">🛡️ Safety Profile</a>
+            <button id="btnLogout" class="dropdown-item text-danger" data-i18n="navSignOut">Sign Out</button>
           </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- Main Content Container -->
+  <!-- Main Content Layout -->
   <main class="container page-layout">
     
-    <!-- Hero / Search Section -->
-    <section class="search-section card">
-      <h2 class="search-title">Check Landslide Risk for Any Town, Village, or Road</h2>
-      <p class="search-desc">Combines live Open-Meteo rainfall and soil saturation with ISRO's Landslide Atlas of India (80,000 historical events) and GSI terrain data.</p>
-      
+    <!-- Hero / Search Section with Mountain Banner -->
+    <section class="hero-banner-card">
+      <div class="hero-tag">🌲 Northern India & Himalayan Montane Early Warning</div>
+      <h2 class="hero-title" data-i18n="heroTitle">Himalayan Landslide Early Warning & Terrain Risk</h2>
+      <p class="hero-desc" data-i18n="heroDesc">
+        Fusing live Open-Meteo rainfall and soil saturation with ISRO's Landslide Atlas of India (80,000 historical events) and GSI terrain susceptibility.
+      </p>
+
       <div class="search-box-wrap">
         <div class="search-input-group">
           <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="Search city, district, or village (e.g. Wayanad, Joshimath, Shimla, Darjeeling...)" autocomplete="off">
-          <button id="btnSearch" class="btn btn-search">Check Risk</button>
+          <input type="text" id="searchInput" placeholder="Search Himalayan town, village, or route (e.g. Wayanad, Joshimath, Shimla, Darjeeling...)" data-i18n-ph="searchPlaceholder" autocomplete="off">
+          <button id="btnSearch" class="btn btn-primary" data-i18n="btnCheckRisk">Check Risk</button>
         </div>
-        <button id="btnDetectLocation" class="btn btn-locate" title="Use your device GPS">
+        <button id="btnDetectLocation" class="btn btn-terrain" data-i18n="btnUseGps">
           <span>📍</span> Use My Location
         </button>
-      </div>
-      
-      <!-- Autocomplete Dropdown List -->
-      <ul id="autocompleteList" class="autocomplete-dropdown hidden"></ul>
 
-      <!-- Quick Check Chips -->
+        <!-- Autocomplete Dropdown -->
+        <ul id="autocompleteList" class="autocomplete-dropdown hidden"></ul>
+      </div>
+
+      <!-- Quick Chips for Prominent Hill Areas -->
       <div class="quick-chips">
-        <span class="chips-label">Popular Hill Stations:</span>
+        <span class="chips-label" data-i18n="popularLabel">Vulnerable Hill Centers:</span>
         <div class="chips-list">
           <button class="chip" data-lat="11.6854" data-lon="76.1320" data-name="Wayanad, Kerala">Wayanad (Kerala)</button>
           <button class="chip" data-lat="30.5564" data-lon="79.5658" data-name="Joshimath, Uttarakhand">Joshimath (UK)</button>
           <button class="chip" data-lat="31.1048" data-lon="77.1734" data-name="Shimla, Himachal Pradesh">Shimla (HP)</button>
           <button class="chip" data-lat="27.0410" data-lon="88.2663" data-name="Darjeeling, West Bengal">Darjeeling (WB)</button>
-          <button class="chip" data-lat="10.1583" data-lon="77.0167" data-name="Munnar, Kerala">Munnar (Kerala)</button>
           <button class="chip" data-lat="30.4225" data-lon="79.3361" data-name="Chamoli, Uttarakhand">Chamoli (UK)</button>
+          <button class="chip" data-lat="10.1583" data-lon="77.0167" data-name="Munnar, Kerala">Munnar (Kerala)</button>
           <button class="chip" data-lat="11.4102" data-lon="76.6950" data-name="Ooty, Nilgiris">Ooty (Nilgiris)</button>
           <button class="chip" data-lat="27.3314" data-lon="88.6138" data-name="Gangtok, Sikkim">Gangtok (Sikkim)</button>
         </div>
@@ -108,7 +121,7 @@
     <!-- Loading Spinner -->
     <div id="loadingIndicator" class="loading-state hidden">
       <div class="spinner"></div>
-      <p>Analyzing live weather from Open-Meteo and matching ISRO Landslide Atlas inventory...</p>
+      <p>Analyzing live meteorological precipitation and ISRO Landslide Atlas inventory...</p>
     </div>
 
     <!-- MAIN RESULT DASHBOARD -->
@@ -123,7 +136,7 @@
             <div>
               <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap;">
                 <span class="location-tag" id="displayLocationName">Location: Wayanad, Kerala</span>
-                <button id="btnSaveCurrentLoc" class="btn btn-sm btn-outline btn-save-loc hidden" title="Save this location to your safety profile">⭐ Save</button>
+                <button id="btnSaveCurrentLoc" class="btn btn-sm btn-outline btn-save-loc hidden" title="Save this location to your safety profile" data-i18n="btnSaveLoc">⭐ Save</button>
               </div>
               <span class="timestamp-tag" id="displayTimestamp">Updated: Just now</span>
             </div>
@@ -134,45 +147,45 @@
             <div class="risk-badge-large" id="riskBadge">
               <span class="risk-level-icon" id="riskLevelIcon">🟢</span>
               <div class="risk-text-wrap">
-                <span class="risk-level-title" id="riskLevelTitle">Low Risk</span>
+                <span class="risk-level-title" id="riskLevelTitle" data-i18n="riskTitle">Low Risk</span>
                 <span class="risk-score-value" id="riskScoreValue">Risk Score: 18 / 100</span>
               </div>
             </div>
           </div>
 
-          <!-- Plain English Explanation -->
+          <!-- Plain Language Explanation -->
           <div class="summary-box">
-            <h3 class="summary-title">💡 In Simple Words</h3>
+            <h3 class="summary-title" data-i18n="plainWordsTitle">💡 In Everyday Words</h3>
             <p id="plainSummaryText" class="plain-summary-text">
-              Loading plain English analysis...
+              Loading environmental assessment...
             </p>
           </div>
 
-          <!-- Why this risk level? -->
+          <!-- Key Contributing Factors -->
           <div class="reasons-box">
-            <h4 class="reasons-title">Key Factors at this Location:</h4>
+            <h4 class="reasons-title" data-i18n="factorsTitle">Key Physical Factors:</h4>
             <ul id="reasonsList" class="reasons-list"></ul>
           </div>
 
           <!-- Actionable Safety Checklist -->
           <div class="action-box" id="actionBox">
-            <h4 class="action-title">🛡️ What You Should Do Right Now:</h4>
+            <h4 class="action-title" data-i18n="actionTitle">🛡️ What You Should Do Right Now:</h4>
             <ul id="actionList" class="action-list"></ul>
           </div>
         </div>
 
-        <!-- 4-Pillar Detailed Indicators Grid -->
+        <!-- 4-Pillars Breakdown Grid -->
         <div class="pillars-grid">
           
           <!-- Pillar 1: Rainfall (Open-Meteo) -->
           <div class="card pillar-card">
             <div class="pillar-header">
               <span class="pillar-icon">🌧️</span>
-              <h4 class="pillar-title">Rainfall Impact</h4>
+              <h4 class="pillar-title" data-i18n="pillarRain">Rainfall Impact</h4>
             </div>
             <div class="pillar-metric">
               <span class="metric-val" id="metricRain24h">-- mm</span>
-              <span class="metric-sub">Past 24 Hours</span>
+              <span class="metric-sub" data-i18n="pillarRainSub">Past 24 Hours</span>
             </div>
             <div class="pillar-details">
               <div class="detail-row">
@@ -184,22 +197,22 @@
                 <strong id="metricForecast24h">-- mm</strong>
               </div>
               <div class="detail-row">
-                <span>Rainfall Intensity:</span>
+                <span>Intensity:</span>
                 <span id="metricRainCategory" class="badge-sm">--</span>
               </div>
             </div>
             <span class="source-tag">Source: Open-Meteo Weather API</span>
           </div>
 
-          <!-- Pillar 2: Soil Moisture (Open-Meteo) -->
+          <!-- Pillar 2: Soil Saturation (Open-Meteo) -->
           <div class="card pillar-card">
             <div class="pillar-header">
               <span class="pillar-icon">💧</span>
-              <h4 class="pillar-title">Soil Saturation</h4>
+              <h4 class="pillar-title" data-i18n="pillarSoil">Soil Saturation</h4>
             </div>
             <div class="pillar-metric">
               <span class="metric-val" id="metricSoilSat">-- %</span>
-              <span class="metric-sub">Estimated Saturation</span>
+              <span class="metric-sub" data-i18n="pillarSoilSub">Estimated Saturation</span>
             </div>
             <div class="pillar-details">
               <div class="detail-row">
@@ -222,11 +235,11 @@
           <div class="card pillar-card">
             <div class="pillar-header">
               <span class="pillar-icon">🏔️</span>
-              <h4 class="pillar-title">Historical Evidence</h4>
+              <h4 class="pillar-title" data-i18n="pillarHistory">Historical Evidence</h4>
             </div>
             <div class="pillar-metric">
               <span class="metric-val" id="metricNearestDist">-- km</span>
-              <span class="metric-sub">Nearest Mapped Slide</span>
+              <span class="metric-sub" data-i18n="pillarHistorySub">Nearest Mapped Slide</span>
             </div>
             <div class="pillar-details">
               <div class="detail-row">
@@ -238,7 +251,7 @@
                 <strong id="metricDistrictRank">--</strong>
               </div>
               <div class="detail-row">
-                <span>Historical Zone:</span>
+                <span>Terrain Scarp:</span>
                 <span id="metricHistoricZone">Active Scarp</span>
               </div>
             </div>
@@ -249,94 +262,123 @@
           <div class="card pillar-card">
             <div class="pillar-header">
               <span class="pillar-icon">⚠️</span>
-              <h4 class="pillar-title">Field Warning Signs</h4>
+              <h4 class="pillar-title" data-i18n="pillarSigns">Field Warning Signs</h4>
             </div>
             <div class="pillar-metric">
               <span class="metric-val" id="metricFieldSigns">0</span>
-              <span class="metric-sub">Nearby Ground Signs</span>
+              <span class="metric-sub" data-i18n="pillarSignsSub">Nearby Ground Signs</span>
             </div>
             <div class="pillar-details">
               <div class="detail-row">
-                <span>GSI Hazard Zonation:</span>
+                <span>GSI Zonation:</span>
                 <strong id="metricGsiZone">--</strong>
               </div>
               <div class="detail-row">
-                <span>Crowd Ground Reports:</span>
+                <span>Crowd Reports:</span>
                 <span id="metricReportStatus">None nearby</span>
               </div>
               <div class="detail-row">
-                <span>Sensors Active:</span>
-                <span>Community & In-situ</span>
+                <span>In-situ Status:</span>
+                <span>Active</span>
               </div>
             </div>
-            <span class="source-tag">Source: GSI Susceptibility & Community</span>
+            <span class="source-tag">Source: GSI & Crowd Verification</span>
           </div>
 
         </div>
 
       </div>
 
-      <!-- Right Column: Interactive Leaflet Map & Reports Feed -->
+      <!-- Right Column: Map Preview & Visual Guide Teaser -->
       <div class="secondary-col">
         
-        <!-- Leaflet Map Card -->
+        <!-- Interactive Mini-Map Preview -->
         <div class="card map-card">
           <div class="map-card-header">
             <div class="map-title-wrap">
-              <h3 class="map-title">Interactive Landslide Risk Map</h3>
-              <p class="map-subtitle">Click anywhere on the map to assess that point</p>
+              <h3 class="map-title">Local Area Spatial View</h3>
+              <p class="map-subtitle">Assessing coordinates on terrain</p>
             </div>
-            <div class="map-legend-pills">
-              <span class="legend-pill isro"><span class="dot isro-dot"></span> ISRO Historical Slides</span>
-              <span class="legend-pill user"><span class="dot user-dot"></span> Ground Signs</span>
-            </div>
+            <a href="/map.html" class="btn btn-sm btn-primary" data-i18n="viewOnMapBtn">Full Map Explorer →</a>
           </div>
           
-          <div id="riskMap" class="leaflet-map-view"></div>
+          <div id="riskMap" class="leaflet-map-view" style="height: 290px;"></div>
           
           <div class="map-footer-note">
-            <span>Tip: Tap on any red or yellow marker to inspect past disaster details or reported ground cracks.</span>
+            <span>Tip: Tap on markers to inspect historical disaster points or recent field crack reports.</span>
           </div>
         </div>
 
-        <!-- Recent Community Reports in Area -->
+        <!-- Visual Field Guide Feature Card -->
+        <div class="card" style="padding: 0; overflow: hidden; border-color: rgba(56, 189, 248, 0.3);">
+          <img src="images/warning_signs.jpg" alt="Landslide warning signs on mountain road" style="width:100%; height:180px; object-fit:cover;">
+          <div style="padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="guide-badge badge-warning">Visual Educational Guide</span>
+              <span style="font-size: 0.75rem; color: var(--text-dim);">Himalayan Field Manual</span>
+            </div>
+            <h4 style="font-size: 1.1rem; font-weight: 700;">How to Spot Physical Danger Signs</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+              Notice road fissures, muddy spring discharge, or tilting pine trees? Learn what real landslide pre-failure signs look like.
+            </p>
+            <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+              <a href="/guide.html" class="btn btn-sm btn-primary" style="flex: 1; justify-content: center;">Open Visual Guide</a>
+              <button id="btnOpenReportModal" class="btn btn-sm btn-terrain">📢 Report Sign</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Community Reports Quick Feed -->
         <div class="card reports-feed-card">
           <div class="feed-header">
-            <h4 class="feed-title">📢 Community & Sensor Ground Signs</h4>
-            <button id="btnQuickReport" class="btn btn-sm btn-outline">+ Add Sign</button>
+            <h4 class="feed-title">📢 Recent Community Field Signs</h4>
+            <a href="/reports.html" class="btn btn-sm btn-outline">View All →</a>
           </div>
-          <div id="reportsListContainer" class="reports-list">
-            <!-- Populated dynamically via JS -->
-          </div>
+          <div id="reportsListContainer" class="reports-list"></div>
         </div>
 
       </div>
 
-    </section>
-
-    <!-- Ethical & Official Disclaimer Footer Section -->
-    <section class="disclaimer-section card">
-      <div class="disclaimer-header">
-        <span class="disclaimer-icon">ℹ️</span>
-        <h4 class="disclaimer-title">Data Sources, Guidance & Ethical Disclaimer</h4>
-      </div>
-      <p class="disclaimer-text">
-        <strong>Important Notice:</strong> This website provides an <em>estimated</em> landslide risk assessment calculated by fusing real-time meteorological variables from <strong>Open-Meteo</strong> with the <strong>ISRO-NRSC Landslide Atlas of India (1998–2022)</strong>, <strong>Geological Survey of India (GSI)</strong> macro-zonation, and community ground observations.
-      </p>
-      <p class="disclaimer-text">
-        This platform does <strong>not</strong> make deterministic claims that a landslide will definitely occur at a specific second, nor is it an official government evacuation order unless sanctioned by disaster management authorities. For official emergency evacuations, strictly follow orders issued by your local District Magistrate, State Disaster Management Authority (SDMA), and the <strong>National Disaster Management Authority (NDMA)</strong>.
-      </p>
-      <div class="sources-list">
-        <span>Data Citations:</span>
-        <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo Weather API</a> •
-        <a href="https://www.isro.gov.in/media_isro/pdf/LandslideAtlas_new_2023.pdf" target="_blank" rel="noopener">ISRO Landslide Atlas of India (NRSC 2023)</a> •
-        <a href="https://bhuvan.nrsc.gov.in/" target="_blank" rel="noopener">Bhuvan / ISRO Geo-Platform</a> •
-        <a href="https://gsi.gov.in/" target="_blank" rel="noopener">Geological Survey of India (GSI)</a> •
-        <a href="https://ndma.gov.in/" target="_blank" rel="noopener">NDMA India</a>
-      </div>
     </section>
 
   </main>
+
+  <!-- Footer with Citations and Helplines -->
+  <footer class="footer-section">
+    <div class="container footer-grid">
+      <div>
+        <h4 class="footer-title">BhumiRakshak (भूमि रक्षक)</h4>
+        <p style="margin-bottom: 0.75rem; font-size: 0.825rem; color: var(--text-muted);">
+          A scientific Himalayan disaster early warning and slope risk platform designed for everyday citizens, local panchayats, and disaster response authorities.
+        </p>
+        <p style="font-size: 0.775rem; color: var(--text-dim);" data-i18n="disclaimerText">
+          This system provides estimated risk indicators based on open scientific data and does not replace official evacuation orders from NDMA/SDMA.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Navigation & Tools</h4>
+        <ul class="footer-links">
+          <li><a href="/map.html" data-i18n="navMap">Interactive Landslide Map</a></li>
+          <li><a href="/guide.html" data-i18n="navGuide">Visual Field Signs Guide</a></li>
+          <li><a href="/reports.html" data-i18n="navReports">Community Ground Reports</a></li>
+          <li><a href="/alerts.html" data-i18n="navAlerts">Alert Subscription Center</a></li>
+          <li><a href="/about.html" data-i18n="navAbout">Data Citations & Methodology</a></li>
+          <li><a href="/login.html" data-i18n="navSignIn">Citizen Safety Profile</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-title">Official Helplines</h4>
+        <ul class="footer-links">
+          <li><a href="tel:112"><strong>112</strong> - National Emergency Services</a></li>
+          <li><a href="tel:1078"><strong>1078</strong> - NDMA Disaster Helpline</a></li>
+          <li><a href="tel:1070"><strong>1070</strong> - State Disaster Management (SDMA)</a></li>
+          <li><a href="https://ndma.gov.in" target="_blank" rel="noopener">NDMA India Portal ↗</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 
   <!-- MODAL 1: Report Ground Warning Sign -->
   <div id="reportModal" class="modal-backdrop hidden">
@@ -423,10 +465,6 @@
           <input type="text" id="subContact" placeholder="e.g. My Phone / Family Home" value="Home Device">
         </div>
 
-        <div class="alert-preview-box">
-          <strong>How it works:</strong> Our backend checks changing Open-Meteo precipitation and ground status. When the risk score crosses your threshold, an early notification is sent to your device.
-        </div>
-
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" id="btnTestAlert">Simulate Alert</button>
           <button type="submit" class="btn btn-primary" id="btnConfirmSubscribe">Turn On Alerts</button>
@@ -444,9 +482,7 @@
       </div>
       <div class="modal-body">
         <p class="modal-intro">Quickly check landslide risk for your saved family homes and work routes:</p>
-        <div id="savedLocationsList" class="saved-locations-container">
-          <!-- Populated dynamically via JS -->
-        </div>
+        <div id="savedLocationsList" class="saved-locations-container"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" id="btnCloseSavedModal2">Close</button>
         </div>
@@ -457,9 +493,9 @@
   <!-- Toast Notification Alert -->
   <div id="toastNotification" class="toast hidden"></div>
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <!-- Application JS -->
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login & Safety Profile - BhumiRakshak</title>
+  <title>Citizen Login & Safety Profile - BhumiRakshak</title>
   
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
   <style>
     .auth-page {
       max-width: 620px;
-      margin: 2.5rem auto;
+      margin: 1.5rem auto 3rem auto;
     }
 
     .auth-header {
@@ -62,12 +62,12 @@
     }
 
     .auth-tab.active {
-      background: var(--card-border);
+      background: var(--sky-blue-deep);
       color: #fff;
     }
 
     .demo-accounts-card {
-      background: #0b1120;
+      background: #070d18;
       border: 1px solid #1e293b;
       border-radius: 8px;
       padding: 1.1rem;
@@ -77,7 +77,7 @@
     .demo-title {
       font-size: 0.85rem;
       font-weight: 700;
-      color: var(--color-primary);
+      color: var(--sky-blue-light);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 0.6rem;
@@ -90,10 +90,10 @@
     }
 
     .demo-btn {
-      background: #1e293b;
+      background: #0f172a;
       border: 1px solid #334155;
       color: #e2e8f0;
-      padding: 0.6rem 0.9rem;
+      padding: 0.65rem 0.95rem;
       border-radius: 6px;
       font-size: 0.85rem;
       display: flex;
@@ -104,8 +104,8 @@
     }
 
     .demo-btn:hover {
-      background: #334155;
-      border-color: var(--color-primary);
+      background: #1e293b;
+      border-color: var(--sky-blue-light);
       color: #fff;
     }
 
@@ -113,8 +113,8 @@
       font-size: 0.75rem;
       padding: 0.15rem 0.45rem;
       border-radius: 4px;
-      background: #0f172a;
-      color: #38bdf8;
+      background: #070d18;
+      color: var(--sky-blue-light);
     }
 
     .section-divider-title {
@@ -122,42 +122,21 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      color: var(--color-primary);
+      color: var(--sky-blue-light);
       margin: 1.25rem 0 0.5rem 0;
       border-bottom: 1px solid #334155;
       padding-bottom: 0.35rem;
     }
 
     .data-purpose-banner {
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: rgba(2, 132, 199, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       border-radius: 6px;
       padding: 0.85rem 1rem;
       margin-bottom: 1.25rem;
       font-size: 0.825rem;
       color: #cbd5e1;
       line-height: 1.5;
-    }
-
-    .back-link-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .back-link {
-      color: var(--color-primary);
-      text-decoration: none;
-      font-size: 0.875rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .back-link:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -166,26 +145,51 @@
   <!-- Emergency Helplines Banner -->
   <header class="emergency-bar">
     <div class="container emergency-content">
-      <span class="emergency-badge">🚨 Official Emergency Helplines</span>
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
       <div class="helpline-group">
-        <a href="tel:112" class="helpline-link"><strong>112</strong> (National Emergency)</a>
-        <span class="divider">|</span>
-        <a href="tel:1078" class="helpline-link"><strong>1078</strong> (NDMA Disaster Helpline)</a>
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
       </div>
     </div>
   </header>
 
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+      </div>
+    </div>
+  </nav>
+
   <main class="container">
     <div class="auth-page">
-      
-      <div class="back-link-bar">
-        <a href="/" class="back-link">← Back to Live Risk Map</a>
-        <span style="font-size: 0.8rem; color: var(--text-dim);">BhumiRakshak Portal</span>
-      </div>
 
       <div class="auth-header">
         <div class="auth-logo">🏔️</div>
-        <h1 class="auth-title">Citizen & Responder Portal</h1>
+        <h1 class="auth-title">Citizen & Responder Safety Portal</h1>
         <p class="auth-subtitle">Register your safety profile to receive urgent landslide SMS warnings & save monitored hill villages</p>
       </div>
 
@@ -352,6 +356,8 @@
   <!-- Toast Notification Alert -->
   <div id="toastNotification" class="toast hidden"></div>
 
+  <!-- Scripts -->
+  <script src="i18n.js"></script>
   <script src="login.js"></script>
 </body>
 </html>

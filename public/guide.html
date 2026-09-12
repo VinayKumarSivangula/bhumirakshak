@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual Landslide Field Guide - BhumiRakshak</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .guide-hero {
+      background: linear-gradient(180deg, rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.95)),
+                  url('images/himalayan_hero.jpg') center/cover no-repeat;
+      border-radius: 16px;
+      padding: 3rem 2rem;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      margin-bottom: 2rem;
+    }
+
+    .visual-comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (max-width: 820px) {
+      .visual-comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .visual-feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+    }
+
+    .visual-feature-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    .visual-feature-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .sign-indicator-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .sign-indicator-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      background: #0f172a;
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+
+    .sign-indicator-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .safety-matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 860px) {
+      .safety-matrix-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .safety-phase-card {
+      background: #0f172a;
+      border-radius: 8px;
+      padding: 1.25rem;
+      border-top: 4px solid var(--sky-blue);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Emergency Helplines Banner -->
+  <header class="emergency-bar">
+    <div class="container emergency-content">
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
+      <div class="helpline-group">
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/guide.html" class="nav-link active" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container page-layout">
+    
+    <!-- Hero Banner -->
+    <section class="guide-hero">
+      <div class="hero-tag">📸 Visual Recognition Manual</div>
+      <h2 class="hero-title">Visual Landslide Field Guide for Citizens & Volunteers</h2>
+      <p class="hero-desc">
+        Learn how to identify physical signs of impending slope movement before catastrophic failure occurs. Photographic indicators, geological failure types, and official NDMA life-safety protocols.
+      </p>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <a href="/reports.html" class="btn btn-terrain">📢 Report an Observed Ground Sign</a>
+        <a href="/" class="btn btn-primary">Check Your Hill Risk Score</a>
+      </div>
+    </section>
+
+    <!-- SECTION 1: VISUAL EVIDENCE WITH REAL GENERATED PHOTOGRAPHS -->
+    <section>
+      <h3 style="font-size: 1.45rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff;">
+        1. Observable Physical Warning Signs on Hillsides
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
+        Hillsides rarely collapse without warning. Continuous rainfall leads to pore-water pressure buildup that reveals itself through these clear physical indicators:
+      </p>
+
+      <div class="visual-comparison-grid">
+        
+        <!-- Photo 1: Warning Signs on Road & Slope -->
+        <div class="visual-feature-card">
+          <img src="images/warning_signs.jpg" alt="Road tension crack, muddy spring, and leaning trees" class="visual-feature-img">
+          <div class="visual-feature-content">
+            <span class="guide-badge badge-danger">High Urgency Warning</span>
+            <h4 style="font-size: 1.25rem; font-weight: 700; color: #fff;">Tension Cracks, Muddy Springs & Leaning Trees</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.55;">
+              As soil absorbs excessive monsoon water and loses shear strength, tension cracks open parallel to the road cut. Springs that were previously crystalline turn chocolate-brown with sand, indicating internal soil piping.
+            </p>
+            <ul class="sign-indicator-list">
+              <li class="sign-indicator-item">
+                <span class="sign-indicator-icon">⚡</span>
+                <div>
+                  <strong>Road & Path Fissures:</strong> New cracks spreading across tarmac, village footpaths, or house verandahs.
+                </div>
+              </li>
+              <li class="sign-indicator-item">
+                <span class="sign-indicator-icon">🌊</span>
+                <div>
+                  <strong>Sudden Muddy Seepage:</strong> Clear mountain springs abruptly running brown or murky after rain.
+                </div>
+              </li>
+              <li class="sign-indicator-item">
+                <span class="sign-indicator-icon">🌲</span>
+                <div>
+                  <strong>"Pistol-Butt" Leaning Trees:</strong> Pine or cedar trees bowing downhill along with tilted electric poles.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Photo 2: Active Slope Failure & Landslide Types -->
+        <div class="visual-feature-card">
+          <img src="images/landslide_types.jpg" alt="Himalayan active debris flow, rockfall, and retaining walls" class="visual-feature-img">
+          <div class="visual-feature-content">
+            <span class="guide-badge badge-warning">Failure Dynamics</span>
+            <h4 style="font-size: 1.25rem; font-weight: 700; color: #fff;">Major Types of Himalayan Slope Movements</h4>
+            <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.55;">
+              Northern Indian Himalayan terrain experiences distinct mass movement mechanisms depending on rock structure, slope angle, and rainfall intensity.
+            </p>
+            <ul class="sign-indicator-list">
+              <li class="sign-indicator-item">
+                <span class="sign-indicator-icon">🪨</span>
+                <div>
+                  <strong>Debris Flows & Avalanches:</strong> High-velocity torrents of mud, boulders, and trees surging down natural ravines (such as Kedarnath 2013 or Chooralmala 2024).
+                </div>
+              </li>
+              <li class="sign-indicator-item">
+                <span class="sign-indicator-icon">🧱</span>
+                <div>
+                  <strong>Retaining Wall Bulging:</strong> Stone gabions or concrete breast walls bowing outward under saturated slope pressure.
+                </div>
+              </li>
+              <li class="sign-indicator-item">
+                <span class="sign-indicator-icon">⏳</span>
+                <div>
+                  <strong>Rotational Slope Slumping:</strong> Slow, progressive sinking of terraces and roads over weeks (such as Joshimath 2023).
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: NDMA DISASTER ACTION PROTOCOLS -->
+    <section class="card" style="margin-top: 1rem;">
+      <h3 style="font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem;">
+        2. What to Do: Citizen Safety Protocols (NDMA Guidelines)
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        Follow these time-tested safety practices issued by the National Disaster Management Authority (NDMA) during monsoonal cloudbursts and landslide threats:
+      </p>
+
+      <div class="safety-matrix-grid">
+        
+        <div class="safety-phase-card">
+          <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">🎒</div>
+          <h4 style="color: var(--sky-blue-light); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem;">Before (Monsoon Preparation)</h4>
+          <ul style="font-size: 0.85rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 1rem;">
+            <li>Keep an Emergency Grab-Bag: Flashlight, portable radio, mobile power bank, water, dry food, first aid, and Aadhaar/documents in waterproof plastic.</li>
+            <li>Inspect and clear drains, gutters, and culverts around your house so water flows away from slope cuts.</li>
+            <li>Identify the nearest designated community shelter or safe elevated terrace away from natural river gullies.</li>
+          </ul>
+        </div>
+
+        <div class="safety-phase-card" style="border-top-color: var(--risk-severe);">
+          <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">🚨</div>
+          <h4 style="color: #f87171; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem;">During (Active Movement & Rain)</h4>
+          <ul style="font-size: 0.85rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 1rem;">
+            <li>If you hear a rumbling sound, cracking trees, or notice sudden water flow changes, <strong>evacuate immediately</strong>.</li>
+            <li>Move lateral (perpendicular) to the path of the flow, not downstream. Get to high ground.</li>
+            <li>Never cross flooded mountain bridges, causeways, or active mudflow streams on foot or in vehicles.</li>
+            <li>If trapped indoors, take cover under strong furniture away from exterior downslope walls.</li>
+          </ul>
+        </div>
+
+        <div class="safety-phase-card" style="border-top-color: var(--terrain-green-bright);">
+          <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">🤝</div>
+          <h4 style="color: #6ee7b7; font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem;">After (Post-Incident Safety)</h4>
+          <ul style="font-size: 0.85rem; color: #cbd5e1; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 1rem;">
+            <li>Stay away from the slide area. Secondary and tertiary collapses often follow initial slope detachment.</li>
+            <li>Check for injured or trapped neighbors without directly entering the hazard zone. Alert NDRF / SDRF teams via <strong>112</strong>.</li>
+            <li>Report damaged power lines, severed water supply, or cracked roads to village panchayats immediately.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="container footer-grid">
+      <div>
+        <h4 class="footer-title">BhumiRakshak (भूमि रक्षक)</h4>
+        <p style="font-size: 0.825rem; color: var(--text-muted);">
+          A scientific Himalayan disaster early warning and slope risk platform designed for everyday citizens, local panchayats, and disaster response authorities.
+        </p>
+      </div>
+      <div>
+        <h4 class="footer-title">Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="/">Risk Assessor Dashboard</a></li>
+          <li><a href="/map.html">Interactive Map Explorer</a></li>
+          <li><a href="/reports.html">Community Ground Reports</a></li>
+          <li><a href="/alerts.html">Alert Center</a></li>
+          <li><a href="/about.html">Data Citations</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">Emergency Numbers</h4>
+        <ul class="footer-links">
+          <li><a href="tel:112"><strong>112</strong> - National Emergency</a></li>
+          <li><a href="tel:1078"><strong>1078</strong> - NDMA Disaster Line</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+</body>
+</html>

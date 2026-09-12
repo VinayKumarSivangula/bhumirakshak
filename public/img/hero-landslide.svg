@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" class="terrain-art" role="img" aria-label="Illustration of a hillside slope with a landslide debris path cutting across a mountain road">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#DCD6C4"/>
+      <stop offset="1" stop-color="#E7E2D3"/>
+    </linearGradient>
+    <linearGradient id="ridgeFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#93927C"/>
+      <stop offset="1" stop-color="#7F7E69"/>
+    </linearGradient>
+    <linearGradient id="ridgeMid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6C8A63"/>
+      <stop offset="1" stop-color="#556C4E"/>
+    </linearGradient>
+    <linearGradient id="slope" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3F5A3D"/>
+      <stop offset="1" stop-color="#2E4530"/>
+    </linearGradient>
+    <linearGradient id="scar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A2542A"/>
+      <stop offset="1" stop-color="#7C3F20"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="640" height="480" fill="url(#sky)"/>
+
+  <!-- far ridge -->
+  <path d="M0 220 L60 180 130 210 210 160 300 200 380 150 470 195 560 165 640 200 640 480 0 480 Z" fill="url(#ridgeFar)" opacity="0.55"/>
+
+  <!-- mid ridge, vegetated -->
+  <path d="M0 280 L90 235 170 265 260 210 350 255 430 205 520 250 600 220 640 245 640 480 0 480 Z" fill="url(#ridgeMid)"/>
+
+  <!-- contour hairlines on mid ridge -->
+  <g fill="none" stroke="#233B22" stroke-opacity="0.25" stroke-width="1.5">
+    <path d="M20 300 Q160 260 300 295 T600 265"/>
+    <path d="M10 330 Q150 292 300 325 T610 298"/>
+    <path d="M0 360 Q160 322 320 355 T640 330"/>
+  </g>
+
+  <!-- foreground slope with landslide scar cutting through -->
+  <path d="M0 340 L120 300 240 335 340 290 460 330 560 305 640 325 640 480 0 480 Z" fill="url(#slope)"/>
+
+  <!-- landslide debris scar: bare earth channel running down the slope -->
+  <path d="M330 292 C 300 330, 315 360, 270 400 C 235 430, 250 452, 210 480 L 330 480 C 355 445, 335 415, 365 385 C 390 360, 372 325, 395 296 Z" fill="url(#scar)"/>
+  <!-- scattered debris/boulders at the toe of the slide -->
+  <g fill="#7C3F20">
+    <ellipse cx="245" cy="452" rx="16" ry="9"/>
+    <ellipse cx="285" cy="465" rx="12" ry="7"/>
+    <ellipse cx="215" cy="470" rx="10" ry="6"/>
+    <ellipse cx="320" cy="470" rx="14" ry="8"/>
+  </g>
+  <!-- torn vegetation edges along the scar -->
+  <g stroke="#233B22" stroke-width="2" stroke-linecap="round" opacity="0.6">
+    <path d="M328 296 L316 310"/>
+    <path d="M340 300 L330 316"/>
+    <path d="M300 336 L286 350"/>
+    <path d="M312 340 L300 356"/>
+    <path d="M262 404 L248 418"/>
+    <path d="M276 410 L262 424"/>
+  </g>
+
+  <!-- mountain road with a warning marker -->
+  <path d="M0 420 C 140 400, 260 415, 380 392 C 460 378, 540 388, 640 372" fill="none" stroke="#4B4F41" stroke-width="10" stroke-linecap="round" opacity="0.85"/>
+  <path d="M0 420 C 140 400, 260 415, 380 392 C 460 378, 540 388, 640 372" fill="none" stroke="#E7E2D3" stroke-width="2" stroke-dasharray="10 10" opacity="0.7"/>
+
+  <!-- warning triangle marker at the road/scar crossing -->
+  <g transform="translate(352 372)">
+    <polygon points="0,-22 20,14 -20,14" fill="#8A2A28" stroke="#23271D" stroke-width="2"/>
+    <rect x="-2.4" y="-10" width="4.8" height="14" fill="#F4F1E7"/>
+    <circle cx="0" cy="8" r="2.6" fill="#F4F1E7"/>
+  </g>
+
+  <!-- rain streaks -->
+  <g stroke="#4B4F41" stroke-width="2" stroke-linecap="round" opacity="0.35">
+    <line x1="60" y1="40" x2="48" y2="80"/>
+    <line x1="110" y1="30" x2="98" y2="72"/>
+    <line x1="500" y1="50" x2="488" y2="92"/>
+    <line x1="550" y1="35" x2="538" y2="76"/>
+    <line x1="420" y1="60" x2="410" y2="96"/>
+  </g>
+</svg>

@@ -17,6 +17,8 @@ function initTabs() {
   const formLogin = document.getElementById("formLoginContainer");
   const formRegister = document.getElementById("formRegisterContainer");
 
+  if (!tabLogin || !tabRegister || !formLogin || !formRegister) return;
+
   tabLogin.addEventListener("click", () => {
     tabLogin.classList.add("active");
     tabRegister.classList.remove("active");
@@ -34,22 +36,21 @@ function initTabs() {
 
 // 1-Click Demo Logins
 function initDemoButtons() {
-  document.getElementById("btnDemoResident").addEventListener("click", () => {
-    executeLogin("resident@bhumirakshak.in", "password123");
-  });
+  const b1 = document.getElementById("btnDemoResident");
+  if (b1) b1.onclick = () => executeLogin("resident@bhumirakshak.in", "password123");
 
-  document.getElementById("btnDemoVolunteer").addEventListener("click", () => {
-    executeLogin("volunteer@bhumirakshak.in", "password123");
-  });
+  const b2 = document.getElementById("btnDemoVolunteer");
+  if (b2) b2.onclick = () => executeLogin("volunteer@bhumirakshak.in", "password123");
 
-  document.getElementById("btnDemoResponder").addEventListener("click", () => {
-    executeLogin("responder@bhumirakshak.in", "password123");
-  });
+  const b3 = document.getElementById("btnDemoResponder");
+  if (b3) b3.onclick = () => executeLogin("responder@bhumirakshak.in", "password123");
 }
 
 // Login Form Submission
 function initLoginForm() {
   const form = document.getElementById("loginForm");
+  if (!form) return;
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("loginEmail").value.trim();
@@ -72,22 +73,23 @@ async function executeLogin(email, password) {
       throw new Error(data.error || "Login failed");
     }
 
-    // Save token and user details in localStorage
     localStorage.setItem("bk_auth_token", data.token);
     localStorage.setItem("bk_user", JSON.stringify(data.user));
 
     showToast(`✅ Welcome back, ${data.user.name}! Redirecting...`);
     setTimeout(() => {
       window.location.href = "/";
-    }, 1000);
+    }, 900);
   } catch (err) {
     showToast(`⚠️ ${err.message}`);
   }
 }
 
-// Register Form Submission (Collects User Data)
+// Register Form Submission (Collects User Safety Profile Data)
 function initRegisterForm() {
   const form = document.getElementById("registerForm");
+  if (!form) return;
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -135,7 +137,7 @@ function initRegisterForm() {
     };
 
     try {
-      showToast("Saving your safety profile...");
+      showToast("Saving safety profile...");
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -153,16 +155,18 @@ function initRegisterForm() {
       showToast(`✅ Profile registered! Welcome, ${data.user.name}.`);
       setTimeout(() => {
         window.location.href = "/";
-      }, 1200);
+      }, 1000);
     } catch (err) {
       showToast(`⚠️ ${err.message}`);
     }
   });
 }
 
-// GPS Location Auto-Detection for Home Village
+// GPS Location Auto-Detection
 function initGpsDetection() {
   const btnGps = document.getElementById("btnDetectHomeGPS");
+  if (!btnGps) return;
+
   btnGps.addEventListener("click", () => {
     if (!navigator.geolocation) {
       showToast("⚠️ Geolocation is not supported by your browser.");
@@ -178,7 +182,6 @@ function initGpsDetection() {
         document.getElementById("regLat").value = lat;
         document.getElementById("regLon").value = lon;
 
-        // Try reverse geocoding to fill village name
         try {
           const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
           if (res.ok) {
@@ -187,13 +190,11 @@ function initGpsDetection() {
               document.getElementById("regHomeLocation").value = data.display_name.split(',').slice(0, 3).join(', ');
             }
           }
-        } catch (e) {
-          // ignore
-        }
+        } catch (e) {}
       },
       () => {
         btnGps.innerHTML = "<span>📍</span> Auto-Fill with Current GPS Location";
-        showToast("⚠️ Could not fetch GPS location. Please type coordinates manually.");
+        showToast("⚠️ Could not fetch GPS location. Please type manually.");
       },
       { timeout: 8000 }
     );
@@ -202,6 +203,7 @@ function initGpsDetection() {
 
 function showToast(msg) {
   const toast = document.getElementById("toastNotification");
+  if (!toast) return;
   toast.textContent = msg;
   toast.classList.remove("hidden");
   setTimeout(() => {

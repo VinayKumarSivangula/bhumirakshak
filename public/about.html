@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Sources & Methodology - BhumiRakshak</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Emergency Helplines Banner -->
+  <header class="emergency-bar">
+    <div class="container emergency-content">
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
+      <div class="helpline-group">
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link active" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container page-layout">
+    
+    <div>
+      <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff;">ℹ️ Scientific Methodology & Official Data Sources</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        BhumiRakshak synthesizes live open meteorological modeling with satellite-derived historical landslide databases and geological susceptibility zonation.
+      </p>
+    </div>
+
+    <!-- Data Sources Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+      
+      <!-- Source 1: Open-Meteo -->
+      <div class="card" style="border-left: 4px solid var(--sky-blue);">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;">
+          <span style="font-size:1.6rem;">🌧️</span>
+          <div>
+            <h3 style="font-size:1.15rem; font-weight:700; color:#fff;">Open-Meteo Weather API</h3>
+            <small style="color:var(--sky-blue-light);">Real-Time & Historical Atmospheric Data</small>
+          </div>
+        </div>
+        <p style="font-size:0.885rem; color:#cbd5e1; line-height:1.55;">
+          Supplies changing environmental variables without proprietary API barriers:
+        </p>
+        <ul style="font-size:0.85rem; color:#94a3b8; margin:0.6rem 0; padding-left:1.25rem; display:flex; flex-direction:column; gap:0.35rem;">
+          <li><strong>Past 24h Rainfall:</strong> Immediate trigger intensity (mm).</li>
+          <li><strong>Past 72h Antecedent Rain:</strong> Critical multi-day slope soaking accumulation.</li>
+          <li><strong>Forecast Next 24h:</strong> Short-term cloudburst and storm threats.</li>
+          <li><strong>Multi-Layer Soil Moisture:</strong> Volumetric water content across 0–1cm, 1–3cm, and 3–9cm root zone layers.</li>
+        </ul>
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:var(--sky-blue-light); font-size:0.8rem;">Visit Open-Meteo ↗</a>
+      </div>
+
+      <!-- Source 2: ISRO-NRSC Landslide Atlas -->
+      <div class="card" style="border-left: 4px solid #ef4444;">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;">
+          <span style="font-size:1.6rem;">🛰️</span>
+          <div>
+            <h3 style="font-size:1.15rem; font-weight:700; color:#fff;">ISRO Landslide Atlas of India</h3>
+            <small style="color:#f87171;">National Remote Sensing Centre (NRSC, 2023)</small>
+          </div>
+        </div>
+        <p style="font-size:0.885rem; color:#cbd5e1; line-height:1.55;">
+          Published by the Department of Space, Government of India:
+        </p>
+        <ul style="font-size:0.85rem; color:#94a3b8; margin:0.6rem 0; padding-left:1.25rem; display:flex; flex-direction:column; gap:0.35rem;">
+          <li><strong>80,000 Mapped Landslides (1998–2022):</strong> Spatial database of recorded mass movements across the Himalayas and Western Ghats.</li>
+          <li><strong>District Vulnerability Rankings:</strong> Top-ranked districts including Rudraprayag, Tehri Garhwal, Thrissur, Rajouri, Wayanad, Shimla, Chamoli, and Darjeeling.</li>
+          <li><strong>Historical Proximity Metric:</strong> Evaluates proximity to chronic landslide scars.</li>
+        </ul>
+        <a href="https://www.isro.gov.in/media_isro/pdf/LandslideAtlas_new_2023.pdf" target="_blank" rel="noopener" style="color:var(--sky-blue-light); font-size:0.8rem;">Download ISRO Landslide Atlas (PDF) ↗</a>
+      </div>
+
+      <!-- Source 3: Geological Survey of India (GSI) -->
+      <div class="card" style="border-left: 4px solid var(--terrain-green-bright);">
+        <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.75rem;">
+          <span style="font-size:1.6rem;">🏔️</span>
+          <div>
+            <h3 style="font-size:1.15rem; font-weight:700; color:#fff;">Geological Survey of India (GSI)</h3>
+            <small style="color:#6ee7b7;">National Landslide Susceptibility Mapping (NLSM)</small>
+          </div>
+        </div>
+        <p style="font-size:0.885rem; color:#cbd5e1; line-height:1.55;">
+          India's nodal agency for landslide hazard investigations:
+        </p>
+        <ul style="font-size:0.85rem; color:#94a3b8; margin:0.6rem 0; padding-left:1.25rem; display:flex; flex-direction:column; gap:0.35rem;">
+          <li><strong>Macro-Hazard Zonation:</strong> Categorizes terrain into Very High, High, Moderate, and Low susceptibility zones based on slope gradient, lithology, and fault proximity.</li>
+          <li><strong>Himalayan Shearing Zones:</strong> Accounting for fragile phyllites, weathered schists, and active fault lines.</li>
+        </ul>
+        <a href="https://gsi.gov.in/" target="_blank" rel="noopener" style="color:var(--sky-blue-light); font-size:0.8rem;">Visit GSI Official Portal ↗</a>
+      </div>
+
+    </div>
+
+    <!-- Official Advisory & Evacuation Notice -->
+    <div class="card" style="background: rgba(127, 29, 29, 0.2); border: 1.5px solid #ef4444; margin-top: 1rem;">
+      <h3 style="color:#f87171; font-size:1.15rem; font-weight:700; margin-bottom:0.5rem;">
+        🚨 Mandatory Disclaimer & Disaster Management Guidance
+      </h3>
+      <p style="font-size:0.9rem; color:#e2e8f0; line-height:1.6;">
+        <strong>Important Safety Notice:</strong> This website provides an <em>estimated</em> landslide risk indicator combining open meteorological variables, satellite inventories, and community reports. It does <strong>not</strong> make deterministic claims that a specific hillside will collapse at a given second.
+      </p>
+      <p style="font-size:0.9rem; color:#e2e8f0; line-height:1.6; margin-top:0.5rem;">
+        This platform is <strong>not</strong> an official evacuation directive. In all cases of extreme monsoons, cloudbursts, or suspected slope failures, citizens must strictly adhere to evacuation notices and alerts issued by the <strong>National Disaster Management Authority (NDMA)</strong>, State Disaster Management Authorities (SDMA), and the local District Magistrate.
+      </p>
+      <div style="display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+        <a href="tel:112" class="btn btn-sm btn-primary">Call 112 (National Emergency)</a>
+        <a href="tel:1078" class="btn btn-sm btn-outline">Call 1078 (NDMA Helpline)</a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="container footer-grid">
+      <div>
+        <h4 class="footer-title">BhumiRakshak (भूमि रक्षक)</h4>
+        <p style="font-size: 0.825rem; color: var(--text-muted);">
+          A scientific Himalayan disaster early warning and slope risk platform designed for everyday citizens, local panchayats, and disaster response authorities.
+        </p>
+      </div>
+      <div>
+        <h4 class="footer-title">Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="/">Risk Assessor Dashboard</a></li>
+          <li><a href="/map.html">Interactive Map Explorer</a></li>
+          <li><a href="/guide.html">Visual Field Signs Guide</a></li>
+          <li><a href="/reports.html">Community Ground Reports</a></li>
+          <li><a href="/alerts.html">Alert Center</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-title">Official Helplines</h4>
+        <ul class="footer-links">
+          <li><a href="tel:112"><strong>112</strong> - National Emergency</a></li>
+          <li><a href="tel:1078"><strong>1078</strong> - NDMA Disaster Line</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="i18n.js"></script>
+</body>
+</html>

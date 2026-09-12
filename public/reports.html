@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Ground Signs - BhumiRakshak</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .reports-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .reports-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .report-card-full {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: var(--border-radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border-left: 4px solid var(--sky-blue);
+      transition: transform 0.2s;
+    }
+
+    .report-card-full:hover {
+      transform: translateY(-2px);
+      border-color: var(--sky-blue-light);
+    }
+
+    .report-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .verified-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border: 1px solid #10b981;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.725rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Emergency Helplines Banner -->
+  <header class="emergency-bar">
+    <div class="container emergency-content">
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
+      <div class="helpline-group">
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link active" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container page-layout">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff;">📢 Community & Sensor Ground Signs Feed</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          Verified physical ground indicators reported by local residents, tea estate workers, panchayat volunteers, and in-situ displacement sensors.
+        </p>
+      </div>
+    </div>
+
+    <div class="reports-layout">
+      
+      <!-- Left: Filterable List of Reports -->
+      <div>
+        <div class="filter-bar">
+          <button class="chip active" data-filter="all">All Signs</button>
+          <button class="chip" data-filter="ground_cracks">⚡ Ground & Road Cracks</button>
+          <button class="chip" data-filter="muddy_spring">🌊 Muddy Springs</button>
+          <button class="chip" data-filter="leaning_trees">🌲 Tilted Trees</button>
+          <button class="chip" data-filter="wall_cracks">🧱 Retaining Walls</button>
+          <button class="chip" data-filter="rockfall">🪨 Rockfalls</button>
+        </div>
+
+        <div id="fullReportsList" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <span>Loading community reports...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Direct Submission Card -->
+      <div>
+        <div class="card" style="position: sticky; top: 80px;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff;">
+            📢 Report a New Ground Sign
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            See new road fissures or muddy water from slopes? Your report directly alerts neighbors and updates local risk calculations.
+          </p>
+
+          <form id="directReportForm" style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div class="form-group">
+              <label for="dSignType">Observation Type *</label>
+              <select id="dSignType" required>
+                <option value="ground_cracks">Fresh ground or road cracks (widening)</option>
+                <option value="muddy_spring">Sudden muddy water oozing from hillside spring</option>
+                <option value="leaning_trees">Trees or electric poles visibly tilting downslope</option>
+                <option value="wall_cracks">Cracks in retaining walls / foundation</option>
+                <option value="rockfall">Small stones, pebbles, or mud tumbling down</option>
+                <option value="sensor_movement">In-situ ground movement sensor alert</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="dLocationName">Location / Village Landmark *</label>
+              <input type="text" id="dLocationName" placeholder="e.g. Summer Hill near 4th drain" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="dLat">Latitude *</label>
+                <input type="number" step="any" id="dLat" required placeholder="31.1110">
+              </div>
+              <div class="form-group">
+                <label for="dLon">Longitude *</label>
+                <input type="number" step="any" id="dLon" required placeholder="77.1360">
+              </div>
+            </div>
+
+            <button type="button" id="btnGpsReport" class="btn btn-outline btn-sm">
+              <span>📍</span> Auto-Fill Coordinates with Device GPS
+            </button>
+
+            <div class="form-group">
+              <label for="dDescription">Details & Observations</label>
+              <textarea id="dDescription" rows="2" placeholder="e.g. Crack noticed widening after morning heavy rain..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="dReporter">Your Name or Role (Optional)</label>
+              <input type="text" id="dReporter" placeholder="e.g. Local Resident, Panchayat Volunteer">
+            </div>
+
+            <button type="submit" class="btn btn-terrain" style="justify-content: center; margin-top: 0.5rem;">
+              Submit Verified Ground Sign
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Toast Notification Alert -->
+  <div id="toastNotification" class="toast hidden"></div>
+
+  <!-- Scripts -->
+  <script src="i18n.js"></script>
+  <script src="reports.js"></script>
+</body>
+</html>

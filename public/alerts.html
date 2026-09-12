@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alert Center - BhumiRakshak</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .alerts-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 900px) {
+      .alerts-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sub-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: var(--border-radius);
+      padding: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 4px solid var(--sky-blue);
+    }
+
+    .threshold-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Emergency Helplines Banner -->
+  <header class="emergency-bar">
+    <div class="container emergency-content">
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
+      <div class="helpline-group">
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link active" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container page-layout">
+    
+    <div>
+      <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff;">🔔 Landslide Early Warning Alert Center</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Configure automated early warning subscriptions for your home village, road routes, or family locations. When changing Open-Meteo rainfall or soil saturation crosses safe thresholds, alerts are triggered immediately.
+      </p>
+    </div>
+
+    <div class="alerts-layout">
+      
+      <!-- Left: Active Subscriptions & Live Checker -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Live Alert Trigger Simulator -->
+        <div class="card" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(6, 78, 59, 0.4)); border-color: var(--terrain-green-bright);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">⚡ Scheduled Risk Threshold Monitor</h3>
+              <p style="font-size: 0.85rem; color: #cbd5e1; margin-top: 0.2rem;">
+                Runs background verification on all monitored locations against current rainfall and soil saturation models.
+              </p>
+            </div>
+            <button id="btnTriggerCheck" class="btn btn-primary">
+              <span>🔄</span> Run Live Threshold Check Now
+            </button>
+          </div>
+          <div id="checkResultsBox" class="hidden" style="margin-top: 1rem; padding: 0.85rem; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 0.85rem;"></div>
+        </div>
+
+        <!-- Subscribed Monitored Zones List -->
+        <div class="card">
+          <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 1rem;">
+            📍 Active Monitored Subscriptions
+          </h3>
+          <div id="subscriptionsList" style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div class="loading-state">
+              <div class="spinner"></div>
+              <span>Loading registered subscriptions...</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: New Alert Subscription Form -->
+      <div>
+        <div class="card" style="position: sticky; top: 80px;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem;">
+            🔔 Subscribe New Hill Location
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            Register a coordinate to receive automated early warning notifications before extreme slope saturation.
+          </p>
+
+          <form id="subscribePageForm" style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <div class="form-group">
+              <label for="subLocName">Location / Village Name *</label>
+              <input type="text" id="subLocName" placeholder="e.g. Joshimath Lower Slope" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="subLat">Latitude *</label>
+                <input type="number" step="any" id="subLat" placeholder="30.5564" required>
+              </div>
+              <div class="form-group">
+                <label for="subLon">Longitude *</label>
+                <input type="number" step="any" id="subLon" placeholder="79.5658" required>
+              </div>
+            </div>
+
+            <button type="button" id="btnGpsSub" class="btn btn-outline btn-sm">
+              <span>📍</span> Auto-Fill with Device GPS
+            </button>
+
+            <div class="form-group">
+              <label for="subThresholdSelect">Alert Trigger Sensitivity</label>
+              <select id="subThresholdSelect">
+                <option value="HIGH" selected>High & Severe Risk (Recommended - Prevents alert fatigue)</option>
+                <option value="SEVERE">Severe Risk Only (Critical emergencies & evacuations)</option>
+                <option value="MODERATE">Moderate, High & Severe (Maximum sensitivity)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="subDeviceName">Subscriber Name / Device Label</label>
+              <input type="text" id="subDeviceName" placeholder="e.g. Ramesh Mobile / Home">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="justify-content: center; margin-top: 0.5rem;">
+              Activate Early Warning Alerts
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Toast Notification Alert -->
+  <div id="toastNotification" class="toast hidden"></div>
+
+  <!-- Scripts -->
+  <script src="i18n.js"></script>
+  <script src="alerts.js"></script>
+</body>
+</html>
