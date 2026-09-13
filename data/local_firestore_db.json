@@ -1,6 +1,177 @@
 {
   "reports": [
     {
+      "locationName": "Ravulapalem Urban,  Ravulapalem,  Konaseema",
+      "lat": 16.7559,
+      "lon": 81.8395,
+      "signType": "ground_cracks",
+      "signTitle": "Fresh ground or road cracks (widening)",
+      "description": "Visual signs of slope instability observed by user/sensor.",
+      "severity": "High",
+      "reportedBy": "Community Observer",
+      "contactPhone": "",
+      "photoUrl": null,
+      "calamityAnalysis": {
+        "calamityType": "Deep-Seated Rotational Slump & Tensile Ground Subsidence",
+        "hazardCode": "GSI-SLUMP-TENSILE",
+        "threatSeverity": "HIGH_WARNING",
+        "confidenceScore": 85,
+        "locationAnalyzed": "Ravulapalem Urban,  Ravulapalem,  Konaseema",
+        "diagnosedAt": "2026-09-13T06:30:27.861Z",
+        "engine": "BhumiRakshak Geological Computer Vision v2.4 (GSI/ISRO Ground Truth Grounded)",
+        "visualIndicators": [
+          "Transverse en-echelon tensile fissures propagating through surface strata",
+          "Noticeable vertical downthrow scarp offset (5cm - 25cm)",
+          "Lateral crown tension cracks indicating impending rotational block detachment",
+          "Disrupted drainage contour causing internal water ponding"
+        ],
+        "rangeOfEffect": {
+          "downslopeRunoutMeters": "150m - 350m downslope influence zone",
+          "runoutRadiusKm": 0.35,
+          "propagationSpeed": "Progressive creep to episodic acceleration (2cm - 15cm/day)",
+          "threatenedAssets": [
+            "Foundations of downslope multi-story buildings",
+            "Hill arterial roads and retaining berms",
+            "Underground water and sewage conduits (risk of shearing)"
+          ]
+        },
+        "survivalMeasures": [
+          "DO NOT remain inside buildings exhibiting fresh diagonal wall or foundation cracks.",
+          "Move laterally away from the tension fissure axis; do NOT sleep in rooms facing the downslope terrace.",
+          "Immediately divert surface roof runoff away from the cracks using flexible tarpaulin sheets.",
+          "Seal door and window frames to prevent structural jamming during nocturnal ground movement."
+        ],
+        "evacuationMeasures": [
+          "Evacuate along the stable upper bedrock ridge road towards the nearest verified high-ground camp.",
+          "Avoid using lower ravine paths or retaining wall bases where soil surcharge is concentrating.",
+          "Report newly formed cracks immediately to local Panchayat volunteers and SDM Disaster Control (1078)."
+        ],
+        "emergencyActionSummary": "🚨 HIGH WARNING: Move out of 150m - 350m downslope influence zone. Follow perpendicular ridge evacuation toward closest designated safe shelter."
+      },
+      "isVerified": false,
+      "timestamp": "2026-09-13T06:30:27.861Z",
+      "id": "rep-1789281027862"
+    },
+    {
+      "locationName": "Chamoli Bypass Km 12",
+      "lat": 30.551,
+      "lon": 79.56,
+      "signType": "ground_cracks",
+      "signTitle": "Fresh 3-inch Tension Crack Across Road",
+      "description": "Surface fissure propagating from uphill slope terrace.",
+      "severity": "High",
+      "reportedBy": "SDRF Scout Patrol",
+      "contactPhone": "",
+      "photoUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+      "calamityAnalysis": {
+        "calamityType": "Deep-Seated Rotational Slump & Tensile Ground Subsidence",
+        "hazardCode": "GSI-SLUMP-TENSILE",
+        "threatSeverity": "HIGH_WARNING",
+        "confidenceScore": 93,
+        "locationAnalyzed": "Chamoli Bypass Km 12",
+        "diagnosedAt": "2026-09-13T06:26:34.252Z",
+        "engine": "BhumiRakshak Geological Computer Vision v2.4 (GSI/ISRO Ground Truth Grounded)",
+        "visualIndicators": [
+          "Transverse en-echelon tensile fissures propagating through surface strata",
+          "Noticeable vertical downthrow scarp offset (5cm - 25cm)",
+          "Lateral crown tension cracks indicating impending rotational block detachment",
+          "Disrupted drainage contour causing internal water ponding"
+        ],
+        "rangeOfEffect": {
+          "downslopeRunoutMeters": "150m - 350m downslope influence zone",
+          "runoutRadiusKm": 0.35,
+          "propagationSpeed": "Progressive creep to episodic acceleration (2cm - 15cm/day)",
+          "threatenedAssets": [
+            "Foundations of downslope multi-story buildings",
+            "Hill arterial roads and retaining berms",
+            "Underground water and sewage conduits (risk of shearing)"
+          ]
+        },
+        "survivalMeasures": [
+          "DO NOT remain inside buildings exhibiting fresh diagonal wall or foundation cracks.",
+          "Move laterally away from the tension fissure axis; do NOT sleep in rooms facing the downslope terrace.",
+          "Immediately divert surface roof runoff away from the cracks using flexible tarpaulin sheets.",
+          "Seal door and window frames to prevent structural jamming during nocturnal ground movement."
+        ],
+        "evacuationMeasures": [
+          "Evacuate along the stable upper bedrock ridge road towards the nearest verified high-ground camp.",
+          "Avoid using lower ravine paths or retaining wall bases where soil surcharge is concentrating.",
+          "Report newly formed cracks immediately to local Panchayat volunteers and SDM Disaster Control (1078)."
+        ],
+        "emergencyActionSummary": "🚨 HIGH WARNING: Move out of 150m - 350m downslope influence zone. Follow perpendicular ridge evacuation toward closest designated safe shelter."
+      },
+      "isVerified": false,
+      "timestamp": "2026-09-13T06:26:34.252Z",
+      "id": "rep-1789280794252"
+    },
+    {
+      "locationName": "Chamoli Sector 4",
+      "lat": 30.551,
+      "lon": 79.56,
+      "signType": "debris_flow",
+      "signTitle": "Fast Mudflow in Tributary Gully",
+      "description": "Saturated mud slurry dislodging boulders near main bridge.",
+      "severity": "Severe",
+      "reportedBy": "Local Observer",
+      "contactPhone": "",
+      "photoUrl": "images/warning_signs.jpg",
+      "calamityAnalysis": {
+        "calamityType": "Rapid Translational Debris Flow & Boulder-Mud Torrent",
+        "hazardCode": "GSI-DEBRIS-AVALANCHE",
+        "threatSeverity": "CRITICAL_IMMINENT",
+        "confidenceScore": 85,
+        "locationAnalyzed": "Chamoli Sector 4",
+        "diagnosedAt": "2026-09-13T06:26:23.775Z",
+        "engine": "BhumiRakshak Geological Computer Vision v2.4 (GSI/ISRO Ground Truth Grounded)",
+        "visualIndicators": [
+          "Viscous mixture of saturated mud slurry, gravel, and dislodged boulders",
+          "Complete stripping of topsoil and vegetation along the steep gully axis",
+          "Lateral levées deposited along the margins of the flow channel",
+          "High kinetic energy scouring of bedrock channel bed"
+        ],
+        "rangeOfEffect": {
+          "downslopeRunoutMeters": "500m - 1,500m fan inundation zone",
+          "runoutRadiusKm": 1.5,
+          "propagationSpeed": "Violent hydrodynamic surge (8 m/s - 15 m/s)",
+          "threatenedAssets": [
+            "All structures directly in the gully thalweg or alluvial fan cone",
+            "National highway bridges and river crossings",
+            "Electrical transmission pylons and transformers"
+          ]
+        },
+        "survivalMeasures": [
+          "MOVE PERPENDICULAR TO THE FLOW: Run sideways up the slope, never in front of the flow.",
+          "If trapped inside, climb to the highest level or roof on the UPSLOPE side of the reinforced structure.",
+          "Listen for deep roaring sounds like an approaching freight train, which precedes the boulder surge by 60-90 seconds.",
+          "Avoid seeking shelter beneath bridges or behind unreinforced stone masonry walls."
+        ],
+        "evacuationMeasures": [
+          "Reach pre-identified high-ground evacuation assembly points (e.g. Ridge Helipad, Stadiums).",
+          "Maintain a safe distance of at least 150m from stream banks and culvert exits.",
+          "Check in with NDRF/SDRF incident commanders and register family headcount."
+        ],
+        "emergencyActionSummary": "🚨 CRITICAL IMMINENT: Move out of 500m - 1,500m fan inundation zone. Follow perpendicular ridge evacuation toward closest designated safe shelter."
+      },
+      "isVerified": true,
+      "timestamp": "2026-09-13T06:26:23.775Z",
+      "id": "rep-1789280783775"
+    },
+    {
+      "locationName": "Chamoli Bypass Km 12",
+      "lat": 30.551,
+      "lon": 79.56,
+      "signType": "ground_cracks",
+      "signTitle": "Fresh 3-inch Tension Crack Across Road",
+      "description": "Surface fissure propagating from uphill slope terrace.",
+      "severity": "High",
+      "reportedBy": "SDRF Scout Patrol (Verified Field Unit)",
+      "contactPhone": "1078",
+      "photoUrl": "images/warning_signs.jpg",
+      "isVerified": true,
+      "timestamp": "2026-09-13T05:47:43.885Z",
+      "id": "rep-1789278463885"
+    },
+    {
       "locationName": "Test Hill Road",
       "lat": 30.5564,
       "lon": 79.5658,
@@ -32,7 +203,9 @@
       "signTitle": "Muddy brown runoff emerging from tea hill",
       "description": "Clear spring water turned suddenly murky with fine sand after afternoon downpour.",
       "severity": "High",
-      "reportedBy": "Estate Supervisor",
+      "reportedBy": "Estate Supervisor (Panchayat Disaster Team)",
+      "photoUrl": "images/warning_signs.jpg",
+      "isVerified": true,
       "timestamp": "2026-09-12T12:15:00.000Z"
     },
     {
@@ -238,6 +411,68 @@
         }
       ],
       "createdAt": "2026-09-12T15:17:38.898Z"
+    }
+  ],
+  "activeSos": [
+    {
+      "id": "sos-seed-01",
+      "name": "Sunil Joshi & Family",
+      "phone": "+91 94120 77889",
+      "locationName": "Joshimath Lower Terrace, near Ravine",
+      "lat": 30.558,
+      "lon": 79.563,
+      "peopleCount": 4,
+      "urgency": "HIGH_VULNERABLE",
+      "hazardType": "Slope Cracking & Road Cutoff",
+      "notes": "New ground fissures through backyard. Road blocked by mud. Elderly mother cannot walk steep uphill slope.",
+      "status": "PENDING",
+      "assignedTeam": null,
+      "nearestShelter": {
+        "id": "shl-joshimath-01",
+        "name": "Joshimath Govt Inter College High-Ground Camp",
+        "distanceKm": 0.9
+      },
+      "timestamp": "2026-09-13T05:22:18.599Z"
+    },
+    {
+      "id": "sos-seed-02",
+      "name": "Arun Verma (Student Group)",
+      "phone": "+91 94182 33445",
+      "locationName": "Summer Hill, Shimla (Lower Hostel)",
+      "lat": 31.1135,
+      "lon": 77.133,
+      "peopleCount": 2,
+      "urgency": "CRITICAL_TRAPPED",
+      "hazardType": "Mud Slurry Inundation",
+      "notes": "Muddy runoff entering lower ground floor. Retaining wall behind building bulging outward.",
+      "status": "DISPATCHED",
+      "assignedTeam": "SDRF Shimla Rapid Unit 2 (En Route - ETA 12m)",
+      "nearestShelter": {
+        "id": "shl-shimla-01",
+        "name": "Shimla Ridge Helipad Safe Assembly Enclosure",
+        "distanceKm": 4.1
+      },
+      "timestamp": "2026-09-13T05:07:18.602Z"
+    },
+    {
+      "id": "sos-seed-03",
+      "name": "Suresh & Tea Estate Harvesters",
+      "phone": "+91 98471 22334",
+      "locationName": "Chooralmala Upper Tea Sector, Wayanad",
+      "lat": 11.542,
+      "lon": 76.141,
+      "peopleCount": 5,
+      "urgency": "CRITICAL_TRAPPED",
+      "hazardType": "Stream Overflow & Culvert Collapse",
+      "notes": "Culvert bridge washed out. Stranded on elevated tea plateau with 3 children. Safe from water but isolated.",
+      "status": "PENDING",
+      "assignedTeam": null,
+      "nearestShelter": {
+        "id": "shl-wayanad-01",
+        "name": "Meppadi St. Joseph Community High-Ground Relief Center",
+        "distanceKm": 2.3
+      },
+      "timestamp": "2026-09-13T05:32:18.602Z"
     }
   ]
 }

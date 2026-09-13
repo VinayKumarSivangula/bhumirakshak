@@ -115,24 +115,110 @@ const DEFAULT_SEED_USERS = [
   }
 ];
 
+// Initial seed active SOS distress records
+const DEFAULT_SEED_SOS = [
+  {
+    id: "sos-seed-01",
+    name: "Sunil Joshi & Family",
+    phone: "+91 94120 77889",
+    locationName: "Joshimath Lower Terrace, near Ravine",
+    lat: 30.5580,
+    lon: 79.5630,
+    peopleCount: 4,
+    urgency: "HIGH_VULNERABLE",
+    hazardType: "Slope Cracking & Road Cutoff",
+    notes: "New ground fissures through backyard. Road blocked by mud. Elderly mother cannot walk steep uphill slope.",
+    status: "PENDING",
+    assignedTeam: null,
+    nearestShelter: {
+      id: "shl-joshimath-01",
+      name: "Joshimath Govt Inter College High-Ground Camp",
+      distanceKm: 0.9
+    },
+    timestamp: new Date(Date.now() - 25 * 60000).toISOString()
+  },
+  {
+    id: "sos-seed-02",
+    name: "Arun Verma (Student Group)",
+    phone: "+91 94182 33445",
+    locationName: "Summer Hill, Shimla (Lower Hostel)",
+    lat: 31.1135,
+    lon: 77.1330,
+    peopleCount: 2,
+    urgency: "CRITICAL_TRAPPED",
+    hazardType: "Mud Slurry Inundation",
+    notes: "Muddy runoff entering lower ground floor. Retaining wall behind building bulging outward.",
+    status: "DISPATCHED",
+    assignedTeam: "SDRF Shimla Rapid Unit 2 (En Route - ETA 12m)",
+    nearestShelter: {
+      id: "shl-shimla-01",
+      name: "Shimla Ridge Helipad Safe Assembly Enclosure",
+      distanceKm: 4.1
+    },
+    timestamp: new Date(Date.now() - 40 * 60000).toISOString()
+  },
+  {
+    id: "sos-seed-03",
+    name: "Suresh & Tea Estate Harvesters",
+    phone: "+91 98471 22334",
+    locationName: "Chooralmala Upper Tea Sector, Wayanad",
+    lat: 11.5420,
+    lon: 76.1410,
+    peopleCount: 5,
+    urgency: "CRITICAL_TRAPPED",
+    hazardType: "Stream Overflow & Culvert Collapse",
+    notes: "Culvert bridge washed out. Stranded on elevated tea plateau with 3 children. Safe from water but isolated.",
+    status: "PENDING",
+    assignedTeam: null,
+    nearestShelter: {
+      id: "shl-wayanad-01",
+      name: "Meppadi St. Joseph Community High-Ground Relief Center",
+      distanceKm: 2.3
+    },
+    timestamp: new Date(Date.now() - 15 * 60000).toISOString()
+  }
+];
+
+function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c * 10) / 10;
+}
+
 // Local JSON helper functions
 function readLocalDb() {
   try {
     if (!fs.existsSync(LOCAL_DB_PATH)) {
-      const initial = { reports: [], subscriptions: [], users: DEFAULT_SEED_USERS };
+      const initial = { reports: [], subscriptions: [], users: DEFAULT_SEED_USERS, activeSos: DEFAULT_SEED_SOS };
       fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(initial, null, 2), 'utf-8');
       return initial;
     }
     const raw = fs.readFileSync(LOCAL_DB_PATH, 'utf-8');
     const data = JSON.parse(raw);
+    let modified = false;
     if (!data.users || data.users.length === 0) {
       data.users = DEFAULT_SEED_USERS;
+      modified = true;
+    }
+    if (!data.activeSos || data.activeSos.length === 0) {
+      data.activeSos = DEFAULT_SEED_SOS;
+      modified = true;
+    }
+    if (modified) {
       writeLocalDb(data);
     }
     return data;
   } catch (err) {
     console.error('Error reading local db:', err);
-    return { reports: [], subscriptions: [], users: DEFAULT_SEED_USERS };
+    return { reports: [], subscriptions: [], users: DEFAULT_SEED_USERS, activeSos: DEFAULT_SEED_SOS };
   }
 }
 
@@ -360,6 +446,132 @@ const db = {
       const { password, ...safeUser } = u;
       return safeUser;
     });
+  },
+
+  // -------------------------------------------------------------
+  // Safe Shelters & Evacuation Centers
+  // -------------------------------------------------------------
+  getShelters({ lat, lon, radiusKm } = {}) {
+    let shelters = [];
+    try {
+      const raw = fs.readFileSync(path.join(__dirname, '..', 'data', 'safe_shelters.json'), 'utf-8');
+      shelters = JSON.parse(raw);
+    } catch (e) {
+      console.error('Error reading safe_shelters.json:', e.message);
+    }
+
+    if (lat !== undefined && lon !== undefined && !isNaN(lat) && !isNaN(lon)) {
+      shelters = shelters.map(s => {
+        const distanceKm = calculateDistanceKm(lat, lon, s.lat, s.lon);
+        return { ...s, distanceKm };
+      });
+      shelters.sort((a, b) => a.distanceKm - b.distanceKm);
+
+      if (radiusKm && !isNaN(radiusKm)) {
+        shelters = shelters.filter(s => s.distanceKm <= radiusKm);
+      }
+    }
+    return shelters;
+  },
+
+  // -------------------------------------------------------------
+  // Live Citizen SOS Distress Beacons & Location Sharing
+  // -------------------------------------------------------------
+  async getActiveSos() {
+    if (isFirestoreAvailable && firestoreInstance) {
+      try {
+        const snapshot = await firestoreInstance.collection('active_sos')
+          .orderBy('timestamp', 'desc')
+          .get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (err) {
+        console.warn('Firestore getActiveSos failed, falling back to local:', err.message);
+      }
+    }
+    const data = readLocalDb();
+    return (data.activeSos || []).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  },
+
+  async createSos(sosData) {
+    // Find closest shelter automatically if lat/lon provided
+    let nearestShelter = null;
+    if (sosData.lat && sosData.lon) {
+      const allShelters = this.getShelters({ lat: parseFloat(sosData.lat), lon: parseFloat(sosData.lon) });
+      if (allShelters.length > 0) {
+        nearestShelter = {
+          id: allShelters[0].id,
+          name: allShelters[0].name,
+          distanceKm: allShelters[0].distanceKm,
+          phone: allShelters[0].contactPhone
+        };
+      }
+    }
+
+    const record = {
+      id: sosData.id || `sos-${Date.now()}`,
+      name: sosData.name || 'Anonymous Citizen',
+      phone: sosData.phone || '',
+      locationName: sosData.locationName || 'Unspecified Slope',
+      lat: parseFloat(sosData.lat),
+      lon: parseFloat(sosData.lon),
+      peopleCount: parseInt(sosData.peopleCount, 10) || 1,
+      urgency: sosData.urgency || 'HIGH_VULNERABLE',
+      hazardType: sosData.hazardType || 'Slope Instability',
+      notes: sosData.notes || '',
+      status: sosData.status || 'PENDING',
+      assignedTeam: sosData.assignedTeam || null,
+      nearestShelter: sosData.nearestShelter || nearestShelter,
+      timestamp: new Date().toISOString()
+    };
+
+    if (isFirestoreAvailable && firestoreInstance) {
+      try {
+        await firestoreInstance.collection('active_sos').doc(record.id).set(record);
+        return record;
+      } catch (err) {
+        console.warn('Firestore createSos failed, writing locally:', err.message);
+      }
+    }
+
+    const data = readLocalDb();
+    if (!data.activeSos) data.activeSos = [];
+    data.activeSos.unshift(record);
+    writeLocalDb(data);
+    return record;
+  },
+
+  async updateSosStatus(id, updates) {
+    if (isFirestoreAvailable && firestoreInstance) {
+      try {
+        await firestoreInstance.collection('active_sos').doc(id).update(updates);
+      } catch (err) {
+        console.warn('Firestore updateSosStatus failed:', err.message);
+      }
+    }
+
+    const data = readLocalDb();
+    const idx = (data.activeSos || []).findIndex(s => s.id === id);
+    if (idx !== -1) {
+      data.activeSos[idx] = { ...data.activeSos[idx], ...updates, updatedAt: new Date().toISOString() };
+      writeLocalDb(data);
+      return data.activeSos[idx];
+    }
+    return null;
+  },
+
+  async cancelSos(id) {
+    if (isFirestoreAvailable && firestoreInstance) {
+      try {
+        await firestoreInstance.collection('active_sos').doc(id).delete();
+      } catch (err) {
+        console.warn('Firestore cancelSos failed:', err.message);
+      }
+    }
+
+    const data = readLocalDb();
+    data.activeSos = (data.activeSos || []).filter(s => s.id !== id);
+    writeLocalDb(data);
+    return true;
   }
 };
 

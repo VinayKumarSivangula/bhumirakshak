@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safe Shelters & SOS - BhumiRakshak (User Domain)</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .domain-bar {
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      padding: 0.6rem 0;
+    }
+    .domain-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(21, 128, 61, 0.2);
+      color: #86efac;
+      border: 1px solid #15803d;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .rescue-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 1.75rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 960px) {
+      .rescue-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .shelter-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: var(--border-radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-left: 4px solid var(--terrain-green);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .shelter-card:hover {
+      transform: translateY(-2px);
+      border-color: #38bdf8;
+    }
+    .shelter-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .elevation-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.12);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+    .facility-chip {
+      font-size: 0.72rem;
+      background: #1e293b;
+      color: #cbd5e1;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+    .sos-panel {
+      position: sticky;
+      top: 80px;
+      background: #0f172a;
+      border: 2px solid rgba(220, 38, 38, 0.4);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: 0 0 25px rgba(220, 38, 38, 0.15);
+    }
+    .sos-active-banner {
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(185, 28, 28, 0.4));
+      border: 1px solid #ef4444;
+      border-radius: 8px;
+      padding: 1rem;
+      animation: pulseAlert 2s infinite;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+      50% { box-shadow: 0 0 15px 4px rgba(239, 68, 68, 0.35); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Emergency Helplines Banner -->
+  <header class="emergency-bar">
+    <div class="container emergency-content">
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
+      <div class="helpline-group">
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/#bhumirakshak-hero" class="nav-link" style="color:#7fd8e8;">? Intro Globe</a></li>
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/rescue.html" class="nav-link active" data-i18n="navRescue">Safe Shelters & SOS</a></li>
+        <li><a href="/rakshak.html" class="nav-link" data-i18n="navRakshak">🛡️ Rakshak Portal</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Domain Switcher Header -->
+  <div class="domain-bar">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.6rem;">
+        <span class="domain-pill">👤 User / Survivor Domain</span>
+        <span style="font-size:0.85rem; color:#94a3b8;">Find safe assembly high ground & share live GPS with rescue teams</span>
+      </div>
+      <a href="/rakshak.html" class="btn btn-sm btn-outline" style="border-color:#38bdf8; color:#38bdf8; font-size:0.8rem;">
+        <span>🛡️</span> Switch to Rakshak Tactical Command Portal ➔
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="container page-layout">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h2 style="font-size: 1.85rem; font-weight: 800; color: #fff;">
+          🛡️ Safe Shelters Locator & Citizen Rescue SOS
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 800px;">
+          Find verified high-ground evacuation shelters outside landslide runout paths. If you or your neighbors are cut off or in danger, enable live GPS sharing so nearby Rakshak teams can guide and rescue you.
+        </p>
+      </div>
+
+      <!-- Quick Location Chips -->
+      <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 0.8rem; color: var(--text-dim);">Jump to Sector:</span>
+        <button class="chip" onclick="setSectorCoords(30.5564, 79.5658, 'Joshimath, Chamoli')">Joshimath</button>
+        <button class="chip" onclick="setSectorCoords(31.1048, 77.1734, 'Shimla, HP')">Shimla</button>
+        <button class="chip" onclick="setSectorCoords(11.5500, 76.1300, 'Meppadi, Wayanad')">Wayanad</button>
+        <button class="chip" onclick="setSectorCoords(27.0420, 88.2660, 'Darjeeling')">Darjeeling</button>
+        <button class="chip" onclick="setSectorCoords(33.2420, 75.2410, 'Ramban, J&K')">Ramban</button>
+      </div>
+    </div>
+
+    <div class="rescue-grid">
+      
+      <!-- Left: Safe Shelters List & Interactive Spatial Mini-Map -->
+      <div>
+        <!-- Coordinates & Search Controls -->
+        <div class="card" style="margin-bottom: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1; min-width: 260px;">
+            <span style="font-size: 1.2rem;">📍</span>
+            <div>
+              <div style="font-size: 0.8rem; color: var(--text-dim);">Monitored Location:</div>
+              <strong id="activeLocName" style="color: #fff; font-size: 0.95rem;">Joshimath, Uttarakhand (30.5564, 79.5658)</strong>
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" id="btnDetectGps" class="btn btn-terrain btn-sm">
+              <span>📍</span> Use My Current GPS
+            </button>
+          </div>
+        </div>
+
+        <!-- Mini Spatial Map Showing User Location & Safe Shelters -->
+        <div class="card" style="padding: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 0.5rem;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: #fff;">🗺️ Local Safe Shelters & Evacuation Corridors</span>
+            <span style="font-size: 0.75rem; color: #4ade80;">🟢 Green Shields = High-Ground Shelters | 🔵 Blue Marker = You</span>
+          </div>
+          <div id="rescueMiniMap" style="height: 280px; width: 100%; border-radius: 6px; border: 1px solid #1e293b;"></div>
+        </div>
+
+        <!-- Shelters List -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">
+            Verified High-Ground Shelters (<span id="sheltersCount">0</span> Nearby)
+          </h3>
+          <span style="font-size: 0.8rem; color: var(--text-dim);">Sorted by shortest distance</span>
+        </div>
+
+        <div id="sheltersList" style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <span>Finding closest safe shelters...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Citizen SOS Live GPS Transmitter to Rakshaks -->
+      <div>
+        <div class="sos-panel">
+          
+          <!-- Inactive SOS Form -->
+          <div id="sosFormContainer">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span style="font-size: 1.6rem;">🚨</span>
+              <div>
+                <h3 style="font-size: 1.2rem; font-weight: 800; color: #ef4444;">
+                  Emergency SOS to Rakshaks
+                </h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">
+                  Transmit live GPS & request government rescue teams
+                </p>
+              </div>
+            </div>
+
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem; line-height: 1.45;">
+              Use this when road is blocked, houses are cracking, or flood/debris makes self-evacuation unsafe. Nearby Rakshaks (NDRF/SDRF) will receive your beacon.
+            </p>
+
+            <form id="sosBroadcastForm" style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div class="form-group">
+                <label for="sosName">Your Name / Family Head *</label>
+                <input type="text" id="sosName" placeholder="e.g. Ramesh Chandra" required>
+              </div>
+
+              <div class="form-group">
+                <label for="sosPhone">Contact Phone (for Rescuers to call) *</label>
+                <input type="tel" id="sosPhone" placeholder="+91 98765 43210" required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="sosPeopleCount">People with You *</label>
+                  <select id="sosPeopleCount">
+                    <option value="1">1 Person (Just me)</option>
+                    <option value="2">2 People</option>
+                    <option value="3">3 People</option>
+                    <option value="4" selected>4 People (Family)</option>
+                    <option value="5">5 People</option>
+                    <option value="6">6+ People</option>
+                    <option value="10">10+ People (Group/Community)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="sosUrgency">Distress Urgency *</label>
+                  <select id="sosUrgency">
+                    <option value="CRITICAL_TRAPPED">🚨 Critical (Trapped / Injured)</option>
+                    <option value="HIGH_VULNERABLE" selected>⚠️ High (Elderly / Cut-off)</option>
+                    <option value="PRECAUTIONARY">🛡️ Precautionary Evacuation</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="sosHazard">Nature of Threat *</label>
+                <select id="sosHazard">
+                  <option value="Slope Cracking & Rockfall">Slope Cracking & Rockfall</option>
+                  <option value="Road Blocked by Debris Flow">Road Blocked by Debris Flow</option>
+                  <option value="Mud Slurry Inundation">Mud Slurry Inundation</option>
+                  <option value="Stream / River Inundation">Stream / River Inundation</option>
+                  <option value="Retaining Wall Bulging">Retaining Wall Bulging</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sosNotes">Specific Needs / Notes</label>
+                <textarea id="sosNotes" rows="2" placeholder="e.g. Elderly grandmother cannot walk; need stretcher or guidance along safe ridge..."></textarea>
+              </div>
+
+              <button type="submit" class="btn" style="background: #dc2626; color: #fff; font-weight: 800; font-size: 1rem; padding: 0.85rem; justify-content: center; box-shadow: 0 0 15px rgba(220,38,38,0.4);">
+                <span>🚨</span> Transmit My Live GPS to Rakshaks
+              </button>
+            </form>
+          </div>
+
+          <!-- Active SOS State Container -->
+          <div id="sosActiveContainer" style="display: none;">
+            <div class="sos-active-banner">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-weight: 800; color: #fff; font-size: 1.1rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <span class="pulsing-dot" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444;"></span>
+                  LIVE SOS BEACON BROADCASTING
+                </span>
+                <span id="sosTicketId" style="font-size: 0.75rem; color: #fca5a5; font-family: monospace;"></span>
+              </div>
+              <p style="font-size: 0.85rem; color: #fee2e2; margin-bottom: 0.5rem;">
+                Your live GPS coordinates are being transmitted to nearby Rakshak response units and disaster control rooms.
+              </p>
+              
+              <div style="background: rgba(0,0,0,0.3); border-radius: 6px; padding: 0.75rem; margin-bottom: 0.75rem;">
+                <div style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 0.25rem;">
+                  Rescue Status: <strong id="sosStatusLabel" style="color: #facc15;">WAITING FOR RAKSHAK ASSIGNMENT</strong>
+                </div>
+                <div id="sosAssignedTeamBox" style="font-size: 0.8rem; color: #93c5fd; display: none;">
+                  Assigned Team: <strong id="sosAssignedTeamName"></strong>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div style="font-size: 0.775rem; color: #cbd5e1;">
+                  💡 <strong>Immediate Advice:</strong> Stay away from gully drainage channels. Keep your phone battery conserved. Whistle or shout if you hear rescue teams.
+                </div>
+                <button type="button" id="btnCancelSos" class="btn btn-outline btn-sm" style="border-color: #fca5a5; color: #fee2e2; justify-content: center; margin-top: 0.5rem;">
+                  ✅ I Am Safe / Cancel SOS Beacon
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Toast Notification Alert -->
+  <div id="toastNotification" class="toast hidden"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Scripts -->
+  <script src="i18n.js"></script>
+  <script src="rescue.js"></script>
+  <script src="globe-loader.js"></script>
+</body>
+</html>

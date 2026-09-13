@@ -6,12 +6,14 @@ const fs = require('fs');
 const db = require('./config/firebase');
 const { fetchWeatherData } = require('./services/weatherService');
 const { evaluateLandslideRisk, calculateDistanceKm } = require('./services/riskEngine');
+const { analyzeSlopeImage, CALAMITY_ARCHETYPES } = require('./services/imageCalamityService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Simple in-memory token store for session mapping
@@ -280,16 +282,85 @@ app.get('/api/risk', optionalAuth, async (req, res) => {
       recentReports
     });
 
+    // Step D: Detect verified nearby field ground signs and attach active calamity alert notification
+    const nearbyVerified = recentReports
+      .filter(r => (r.isVerified || r.severity === 'Severe' || r.severity === 'High') && r.lat && r.lon)
+      .map(r => {
+        const dist = calculateDistanceKm(lat, lon, r.lat, r.lon);
+        return { ...r, distanceKm: dist };
+      })
+      .filter(r => r.distanceKm <= 25)
+      .sort((a, b) => {
+        // Prioritize verified signs first, then closer distance
+        if (a.isVerified !== b.isVerified) return a.isVerified ? -1 : 1;
+        return a.distanceKm - b.distanceKm;
+      });
+
+    let verifiedFieldNotification = null;
+    if (nearbyVerified.length > 0) {
+      const topAlert = { ...nearbyVerified[0] };
+      // Ensure calamityAnalysis is populated even for pre-existing reports
+      if (!topAlert.calamityAnalysis) {
+        topAlert.calamityAnalysis = await analyzeSlopeImage(topAlert.photoUrl || '', {
+          signType: topAlert.signType,
+          locationName: topAlert.locationName,
+          description: topAlert.description
+        });
+      }
+      // Attach top safe shelters nearby
+      const shelters = db.getShelters({ lat: topAlert.lat, lon: topAlert.lon, radiusKm: 25 });
+      topAlert.nearbyShelters = shelters.slice(0, 3);
+      verifiedFieldNotification = topAlert;
+    }
+
     res.json({
       success: true,
       data: assessment,
       weather,
+      verifiedFieldNotification,
+      nearbyVerifiedCount: nearbyVerified.length,
       isLoggedIn: Boolean(req.user),
       currentUser: req.user ? { name: req.user.name, role: req.user.role } : null
     });
   } catch (err) {
     console.error('Error evaluating landslide risk:', err);
     res.status(500).json({ error: 'Failed to assess landslide risk', message: err.message });
+  }
+});
+
+// 1B. Dedicated AI Slope Image Calamity Diagnostic Endpoint
+app.post('/api/analyze-image', async (req, res) => {
+  try {
+    const { photoUrl, signType, locationName, description, lat, lon } = req.body;
+
+    if (!photoUrl && !signType) {
+      return res.status(400).json({ error: 'Either photoUrl or signType is required for visual calamity analysis.' });
+    }
+
+    const diagnosis = await analyzeSlopeImage(photoUrl || '', {
+      signType,
+      locationName: locationName || 'Himalayan Mountain Sector',
+      description: description || ''
+    });
+
+    let nearbySafeShelters = [];
+    if (lat && lon) {
+      const parsedLat = parseFloat(lat);
+      const parsedLon = parseFloat(lon);
+      if (!isNaN(parsedLat) && !isNaN(parsedLon)) {
+        const shelters = db.getShelters({ lat: parsedLat, lon: parsedLon, radiusKm: 25 });
+        nearbySafeShelters = shelters.slice(0, 3);
+      }
+    }
+
+    res.json({
+      success: true,
+      diagnosis,
+      nearbySafeShelters
+    });
+  } catch (err) {
+    console.error('[Calamity Diagnostic API] Error:', err);
+    res.status(500).json({ error: 'Failed to diagnose calamity from image', message: err.message });
   }
 });
 
@@ -323,7 +394,7 @@ app.get('/api/reports', async (req, res) => {
 
 app.post('/api/reports', optionalAuth, async (req, res) => {
   try {
-    const { locationName, lat, lon, signType, signTitle, description, severity, reportedBy, phone } = req.body;
+    const { locationName, lat, lon, signType, signTitle, description, severity, reportedBy, phone, photoUrl, isVerified } = req.body;
 
     if (!lat || !lon || !signType) {
       return res.status(400).json({ error: 'Latitude, longitude, and signType are required.' });
@@ -335,6 +406,18 @@ app.post('/api/reports', optionalAuth, async (req, res) => {
 
     const contactPhone = req.user ? req.user.phone : (phone || '');
 
+    // Execute automated AI Visual Calamity Diagnosis on photo evidence
+    let calamityAnalysis = null;
+    try {
+      calamityAnalysis = await analyzeSlopeImage(photoUrl || '', {
+        signType,
+        locationName,
+        description
+      });
+    } catch (analysisErr) {
+      console.warn('[Calamity Diagnostic] Auto-diagnosis warning:', analysisErr.message);
+    }
+
     const newReport = await db.addReport({
       locationName: locationName || 'Hillside Location',
       lat: parseFloat(lat),
@@ -342,10 +425,12 @@ app.post('/api/reports', optionalAuth, async (req, res) => {
       signType,
       signTitle: signTitle || 'Observed Ground Sign',
       description: description || 'Visual signs of slope instability observed by user/sensor.',
-      severity: severity || 'Moderate',
+      severity: severity || 'High',
       reportedBy: reporterIdentity,
       contactPhone,
-      isVerified: Boolean(req.user),
+      photoUrl: photoUrl || null,
+      calamityAnalysis,
+      isVerified: Boolean(req.user || isVerified),
       timestamp: new Date().toISOString()
     });
 
@@ -441,6 +526,109 @@ app.post('/api/check-alerts', async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to run alert check', message: err.message });
+  }
+});
+
+// -------------------------------------------------------------
+// 7. Safe Shelters & Evacuation Centers (User & Rakshak Domains)
+// -------------------------------------------------------------
+app.get('/api/shelters', (req, res) => {
+  try {
+    const lat = req.query.lat ? parseFloat(req.query.lat) : undefined;
+    const lon = req.query.lon ? parseFloat(req.query.lon) : undefined;
+    const radiusKm = req.query.radius ? parseFloat(req.query.radius) : undefined;
+
+    const shelters = db.getShelters({ lat, lon, radiusKm });
+    res.json({
+      success: true,
+      count: shelters.length,
+      shelters
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to retrieve shelters', message: err.message });
+  }
+});
+
+// -------------------------------------------------------------
+// 8. Citizen SOS Distress Beacons & Location Sharing
+// -------------------------------------------------------------
+app.post('/api/sos/broadcast', optionalAuth, async (req, res) => {
+  try {
+    const { name, phone, locationName, lat, lon, peopleCount, urgency, hazardType, notes } = req.body;
+
+    if (!lat || !lon) {
+      return res.status(400).json({ error: 'Live latitude and longitude are required to activate SOS.' });
+    }
+
+    const reporterName = req.user ? req.user.name : (name || 'Citizen in Peril');
+    const reporterPhone = req.user ? (req.user.phone || phone) : (phone || '');
+
+    const record = await db.createSos({
+      name: reporterName,
+      phone: reporterPhone,
+      locationName: locationName || 'Hazard Zone',
+      lat: parseFloat(lat),
+      lon: parseFloat(lon),
+      peopleCount: parseInt(peopleCount, 10) || 1,
+      urgency: urgency || 'HIGH_VULNERABLE',
+      hazardType: hazardType || 'Slope Instability',
+      notes: notes || '',
+      userId: req.user ? req.user.id : null
+    });
+
+    res.status(201).json({ success: true, sos: record });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to broadcast SOS', message: err.message });
+  }
+});
+
+app.get('/api/sos/active', async (req, res) => {
+  try {
+    const activeSos = await db.getActiveSos();
+    res.json({
+      success: true,
+      count: activeSos.length,
+      activeSos
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch active SOS beacons', message: err.message });
+  }
+});
+
+app.post('/api/sos/update-status', async (req, res) => {
+  try {
+    const { sosId, status, assignedTeam, notes } = req.body;
+    if (!sosId || !status) {
+      return res.status(400).json({ error: 'sosId and status are required.' });
+    }
+
+    const updated = await db.updateSosStatus(sosId, {
+      status,
+      ...(assignedTeam ? { assignedTeam } : {}),
+      ...(notes ? { rescueNotes: notes } : {})
+    });
+
+    if (!updated) {
+      return res.status(404).json({ error: 'SOS record not found.' });
+    }
+
+    res.json({ success: true, sos: updated });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update SOS status', message: err.message });
+  }
+});
+
+app.post('/api/sos/cancel', async (req, res) => {
+  try {
+    const { sosId } = req.body;
+    if (!sosId) {
+      return res.status(400).json({ error: 'sosId is required.' });
+    }
+
+    await db.cancelSos(sosId);
+    res.json({ success: true, message: 'SOS signal cancelled / citizen safely located.' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to cancel SOS', message: err.message });
   }
 });
 

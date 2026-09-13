@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rakshak Tactical Rescue Command - BhumiRakshak (Govt Domain)</title>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .domain-bar {
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      padding: 0.6rem 0;
+    }
+    .domain-pill-rakshak {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(2, 132, 199, 0.2);
+      color: #38bdf8;
+      border: 1px solid #0284c7;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .tactical-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .tactical-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: var(--border-radius);
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .tactical-layout {
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 1.75rem;
+    }
+    @media (max-width: 1024px) {
+      .tactical-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .sos-ticket-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: var(--border-radius);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      border-left: 4px solid #ef4444;
+      transition: transform 0.2s;
+    }
+    .sos-ticket-card:hover {
+      transform: translateY(-2px);
+      border-color: #f87171;
+    }
+    .urgency-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .urgency-critical {
+      background: rgba(220, 38, 38, 0.25);
+      color: #f87171;
+      border: 1px solid #ef4444;
+    }
+    .urgency-high {
+      background: rgba(245, 158, 11, 0.25);
+      color: #fbbf24;
+      border: 1px solid #f59e0b;
+    }
+    .status-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Emergency Helplines Banner -->
+  <header class="emergency-bar">
+    <div class="container emergency-content">
+      <span class="emergency-badge" data-i18n="navEmergency">🚨 Official Emergency Helplines: 112 (National Emergency) | 1078 (NDMA Disaster Helpline)</span>
+      <div class="helpline-group">
+        <a href="tel:112" class="helpline-link">112</a>
+        <a href="tel:1078" class="helpline-link">1078</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-nav">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <div class="brand-icon">🏔️</div>
+        <div>
+          <h1 class="brand-title" data-i18n="brandTitle">BhumiRakshak</h1>
+          <p class="brand-subtitle" data-i18n="brandSubtitle">Himalayan Landslide Early Warning System</p>
+        </div>
+      </a>
+
+      <!-- Page Links -->
+      <ul class="nav-links">
+        <li><a href="/#bhumirakshak-hero" class="nav-link" style="color:#7fd8e8;">? Intro Globe</a></li>
+        <li><a href="/" class="nav-link" data-i18n="navHome">Assessment</a></li>
+        <li><a href="/map.html" class="nav-link" data-i18n="navMap">Interactive Map</a></li>
+        <li><a href="/rescue.html" class="nav-link" data-i18n="navRescue">Safe Shelters & SOS</a></li>
+        <li><a href="/rakshak.html" class="nav-link active" data-i18n="navRakshak">🛡️ Rakshak Portal</a></li>
+        <li><a href="/guide.html" class="nav-link" data-i18n="navGuide">Visual Field Guide</a></li>
+        <li><a href="/reports.html" class="nav-link" data-i18n="navReports">Community Signs</a></li>
+        <li><a href="/alerts.html" class="nav-link" data-i18n="navAlerts">Alert Center</a></li>
+        <li><a href="/about.html" class="nav-link" data-i18n="navAbout">Data Sources</a></li>
+      </ul>
+
+      <!-- Language Switcher & Profile -->
+      <div class="nav-actions">
+        <div class="lang-picker-wrap" title="Select Northern Indian Language">
+          <span class="lang-icon">🌐</span>
+          <select class="lang-select" aria-label="Select Language"></select>
+        </div>
+        <a href="/login.html" id="navLoginBtn" class="btn btn-outline btn-sm" data-i18n="navSignIn">
+          <span>👤</span> Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Domain Switcher Header -->
+  <div class="domain-bar">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+      <div style="display:flex; align-items:center; gap:0.6rem;">
+        <span class="domain-pill-rakshak">🛡️ Rakshak Tactical Command Domain</span>
+        <span style="font-size:0.85rem; color:#94a3b8;">Govt, NDRF & SDRF Emergency Response, Survivor GPS Tracking & Safe Haven Operations</span>
+      </div>
+      <a href="/rescue.html" class="btn btn-sm btn-outline" style="border-color:#22c55e; color:#86efac; font-size:0.8rem;">
+        <span>👤</span> Switch to Citizen / Survivor Domain ➔
+      </a>
+    </div>
+  </div>
+
+  <!-- Main Tactical Console -->
+  <main class="container page-layout">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+      <div>
+        <h2 style="font-size: 1.85rem; font-weight: 800; color: #fff;">
+          🛡️ Rakshak Rescue Command Center
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          Real-time GIS command for NDRF battalions, SDRF units, and District Disaster Management Authorities. Monitor citizen GPS distress signals, guide survivors along safe corridors, and coordinate high-ground shelters.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <span class="pulse-indicator" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#22c55e;"></span>
+        <span style="font-size: 0.8rem; color: #86efac; font-weight: 600;">LIVE SATELLITE & GPS TELEMETRY ACTIVE</span>
+        <button type="button" id="btnRefreshTactical" class="btn btn-outline btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.6rem;">
+          🔄 Refresh
+        </button>
+      </div>
+    </div>
+
+    <!-- Tactical Metrics Bar -->
+    <div class="tactical-metrics">
+      <div class="tactical-card">
+        <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;">Active Distress Signals</div>
+        <div id="metricActiveSos" style="font-size: 2rem; font-weight: 800; color: #ef4444; margin-top: 0.25rem;">0</div>
+        <span style="font-size: 0.75rem; color: #fca5a5;">Citizens / Families In Peril</span>
+      </div>
+
+      <div class="tactical-card">
+        <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;">Rakshak Units Deployed</div>
+        <div style="font-size: 2rem; font-weight: 800; color: #38bdf8; margin-top: 0.25rem;">5 Units</div>
+        <span style="font-size: 0.75rem; color: #7dd3fc;">NDRF, SDRF & Panchayat Teams</span>
+      </div>
+
+      <div class="tactical-card">
+        <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;">Open Safe Havens</div>
+        <div id="metricShelters" style="font-size: 2rem; font-weight: 800; color: #22c55e; margin-top: 0.25rem;">14 Shelters</div>
+        <span style="font-size: 0.75rem; color: #86efac;">6,240 Total Bed Capacity</span>
+      </div>
+
+      <div class="tactical-card">
+        <div style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;">Avg Tactical Response</div>
+        <div style="font-size: 2rem; font-weight: 800; color: #f59e0b; margin-top: 0.25rem;">14 Mins</div>
+        <span style="font-size: 0.75rem; color: #fde68a;">Target evacuation window</span>
+      </div>
+    </div>
+
+    <!-- Tactical Operations Layout -->
+    <div class="tactical-layout">
+      
+      <!-- Left: Tactical GIS Rescue Map -->
+      <div>
+        <div class="card" style="padding: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; padding: 0 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.1rem; font-weight: 700; color: #fff;">🗺️ Tactical GIS Rescue & Evacuation Map</span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; font-size: 0.75rem;">
+              <span style="color: #ef4444; font-weight: 700;">🔴 Survivor SOS GPS</span>
+              <span style="color: #22c55e; font-weight: 700;">🛡️ Safe Shelter</span>
+              <span style="color: #38bdf8; font-weight: 700;">🚒 Rakshak Unit</span>
+            </div>
+          </div>
+          <div id="tacticalGisMap" style="height: 480px; width: 100%; border-radius: 6px; border: 1px solid #1e293b;"></div>
+        </div>
+
+        <!-- Safe Shelters Logistics Summary -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff;">
+              🏕️ Regional High-Ground Shelters Status
+            </h3>
+            <span style="font-size: 0.8rem; color: var(--text-dim);">Live occupancy telemetry</span>
+          </div>
+
+          <div id="sheltersTableContainer" style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left;">
+              <thead>
+                <tr style="border-bottom: 1px solid #334155; color: var(--text-dim);">
+                  <th style="padding: 0.5rem;">Shelter Name & District</th>
+                  <th style="padding: 0.5rem;">Type</th>
+                  <th style="padding: 0.5rem;">Occupancy / Capacity</th>
+                  <th style="padding: 0.5rem;">Free Beds</th>
+                  <th style="padding: 0.5rem;">Medical Post</th>
+                  <th style="padding: 0.5rem;">Manager Contact</th>
+                </tr>
+              </thead>
+              <tbody id="sheltersTableBody">
+                <tr><td colspan="6" style="padding: 1rem; text-align: center; color: var(--text-muted);">Loading shelters telemetry...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Live Survivor Distress Queue & Dispatch Actions -->
+      <div>
+        <div class="card" style="position: sticky; top: 80px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 0.4rem;">
+              <span>🚨</span> Survivor SOS Dispatch Queue
+            </h3>
+            <span id="queueBadge" class="badge" style="background: rgba(239,68,68,0.2); color: #fca5a5; border: 1px solid #ef4444;">
+              0 Pending
+            </span>
+          </div>
+
+          <p style="font-size: 0.825rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Citizens currently transmitting live GPS distress beacons. Dispatch nearby Rakshak teams or guide them to the closest safe shelter.
+          </p>
+
+          <div id="sosQueueList" style="display: flex; flex-direction: column; gap: 0.85rem; max-height: 700px; overflow-y: auto;">
+            <div class="loading-state">
+              <div class="spinner"></div>
+              <span>Scanning for active distress signals...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Dispatch Action Modal -->
+  <div id="dispatchModal" class="modal-overlay hidden" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; padding: 1.5rem;">
+    <div class="card" style="max-width: 500px; width: 100%; background: #0f172a; border-color: #38bdf8;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.2rem; color: #fff; font-weight: 700;">🚒 Dispatch Rakshak Unit</h3>
+        <button type="button" id="btnCloseDispatchModal" style="background: transparent; border: none; color: #fff; font-size: 1.4rem; cursor: pointer;">✕</button>
+      </div>
+
+      <div style="background: rgba(15,23,42,0.6); padding: 0.75rem; border-radius: 6px; margin-bottom: 1rem; border: 1px solid #334155;">
+        <div style="font-size: 0.85rem; color: var(--text-muted);">Target Citizen / Group:</div>
+        <strong id="modalCitizenName" style="color: #fff; font-size: 1rem;"></strong>
+        <div id="modalCitizenLoc" style="font-size: 0.8rem; color: #38bdf8;"></div>
+      </div>
+
+      <form id="dispatchForm" style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <input type="hidden" id="modalSosId">
+        
+        <div class="form-group">
+          <label for="selectRescueTeam">Select Rakshak Quick Reaction Unit *</label>
+          <select id="selectRescueTeam" required>
+            <option value="NDRF Battalion 1 (Mountain Rescue Wing)">NDRF Battalion 1 (Mountain Rescue Wing)</option>
+            <option value="SDRF Rapid Evacuation Unit 2">SDRF Rapid Evacuation Unit 2</option>
+            <option value="District Police QRT & Paramedic Team">District Police QRT & Paramedic Team</option>
+            <option value="Local Village Panchayat Disaster Volunteers">Local Village Panchayat Disaster Volunteers</option>
+            <option value="ITBP High Altitude Rescue Squad">ITBP High Altitude Rescue Squad</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="dispatchNotes">Tactical Evacuation Guidance for Survivor</label>
+          <textarea id="dispatchNotes" rows="2" placeholder="e.g. Remain on upper terrace ridge. SDRF Unit 2 en route with all-terrain vehicle. Avoid river crossing..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-terrain" style="justify-content: center; font-weight: 700; background: #0284c7;">
+          <span>🚒</span> Confirm Dispatch & Notify Survivor
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Alert -->
+  <div id="toastNotification" class="toast hidden"></div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Scripts -->
+  <script src="i18n.js"></script>
+  <script src="rakshak.js"></script>
+  <script src="globe-loader.js"></script>
+</body>
+</html>

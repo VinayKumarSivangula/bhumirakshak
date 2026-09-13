@@ -38,6 +38,10 @@
   --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.15);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -1026,3 +1030,812 @@ body {
 .footer-links a:hover {
   text-decoration: underline;
 }
+
+/* ------------------------------------------------------------- */
+/* User & Rakshak Domain Navigation & Tactical Styles            */
+/* ------------------------------------------------------------- */
+
+.domain-bar {
+  background: #091220;
+  border-bottom: 1px solid #1e293b;
+  padding: 0.65rem 0;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.domain-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(21, 128, 61, 0.2);
+  color: #86efac;
+  border: 1px solid #15803d;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.domain-pill-rakshak {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(2, 132, 199, 0.2);
+  color: #38bdf8;
+  border: 1px solid #0284c7;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Safe Shelters */
+.shelter-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: var(--border-radius);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-left: 4px solid var(--terrain-green);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.shelter-card:hover {
+  transform: translateY(-2px);
+  border-color: #38bdf8;
+}
+
+.shelter-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.elevation-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(56, 189, 248, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.facility-chip {
+  font-size: 0.72rem;
+  background: #1e293b;
+  color: #cbd5e1;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #334155;
+}
+
+/* SOS Beacon & Emergency Panel */
+.sos-panel {
+  position: sticky;
+  top: 80px;
+  background: #0f172a;
+  border: 2px solid rgba(220, 38, 38, 0.4);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: 0 0 25px rgba(220, 38, 38, 0.15);
+}
+
+.sos-active-banner {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25), rgba(185, 28, 28, 0.4));
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 1rem;
+  animation: pulseAlert 2s infinite;
+}
+
+@keyframes pulseAlert {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5); }
+  50% { box-shadow: 0 0 16px 4px rgba(239, 68, 68, 0.35); }
+}
+
+/* Tactical Command Center (Rakshak) */
+.tactical-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tactical-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: var(--border-radius);
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.tactical-layout {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 1.75rem;
+}
+
+@media (max-width: 1024px) {
+  .tactical-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sos-ticket-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: var(--border-radius);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  border-left: 4px solid #ef4444;
+  transition: transform 0.2s;
+}
+
+.sos-ticket-card:hover {
+  transform: translateY(-2px);
+  border-color: #f87171;
+}
+
+.urgency-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.urgency-critical {
+  background: rgba(220, 38, 38, 0.25);
+  color: #f87171;
+  border: 1px solid #ef4444;
+}
+
+.urgency-high {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  border: 1px solid #f59e0b;
+}
+
+.status-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Photographic Evidence Attachment Styles */
+.photo-capture-toolbar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.photo-preview-box {
+  display: none;
+  position: relative;
+  border: 1px dashed var(--terrain-green);
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: rgba(16, 185, 129, 0.07);
+  text-align: center;
+}
+
+.report-photo-thumb {
+  margin: 0.6rem 0;
+  cursor: pointer;
+}
+
+/* =============================================================
+   Verified Ground Sign Active Notification Banner
+   ============================================================= */
+.field-alert-banner {
+  background: linear-gradient(135deg, rgba(153, 27, 27, 0.35) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 2px solid #ef4444;
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
+  margin-bottom: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  animation: slideInDown 0.4s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.field-alert-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.pulse-radar-tag {
+  background: #dc2626;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  animation: pulseRadar 1.8s infinite;
+}
+
+@keyframes pulseRadar {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+.verified-source-tag {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+  border: 1px solid #059669;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.time-tag {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.field-alert-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.field-alert-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.field-alert-meta {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  margin-top: 0.3rem;
+}
+
+.field-alert-desc {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-top: 0.4rem;
+  line-height: 1.5;
+}
+
+.field-alert-runout {
+  font-size: 0.85rem;
+  color: #f1f5f9;
+  background: rgba(0, 0, 0, 0.35);
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  margin-top: 0.45rem;
+  border-left: 3px solid #f59e0b;
+}
+
+.field-alert-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  border-top: 1px solid rgba(239, 68, 68, 0.25);
+  padding-top: 0.75rem;
+}
+
+/* =============================================================
+   Instant Slope Photo Calamity Scanner Card
+   ============================================================= */
+.photo-scanner-card {
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(3, 105, 161, 0.12) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-scanner-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #38bdf8, #10b981, #f59e0b);
+}
+
+.sample-chips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.btn-sample-chip {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-sample-chip:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* =============================================================
+   Full AI Calamity Diagnosis Inspection Modal
+   ============================================================= */
+.calamity-grid-top {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .calamity-grid-top {
+    grid-template-columns: 1fr;
+  }
+}
+
+.calamity-photo-preview-wrap {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #334155;
+  background: #000;
+}
+
+.calamity-modal-img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-overlay-tag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  color: #38bdf8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.calamity-indicators-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.calamity-indicators-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  line-height: 1.45;
+}
+
+.calamity-indicators-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0.2rem;
+  color: #ef4444;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.emergency-action-banner {
+  background: rgba(220, 38, 38, 0.15);
+  border-left: 4px solid #ef4444;
+  color: #fca5a5;
+  padding: 0.6rem 0.85rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.calamity-section-box {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+}
+
+.calamity-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 0.4rem;
+}
+
+.section-icon {
+  font-size: 1.15rem;
+}
+
+.range-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .range-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.range-metric-card {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.range-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.range-val {
+  display: block;
+  font-size: 1.15rem;
+  color: #38bdf8;
+  font-weight: 800;
+  margin: 0.2rem 0;
+}
+
+.range-sub {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.threat-assets-list {
+  list-style: none;
+  font-size: 0.825rem;
+  color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.threat-assets-list li {
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.threat-assets-list li::before {
+  content: "⚠️";
+  position: absolute;
+  left: 0;
+  font-size: 0.75rem;
+}
+
+.survival-box {
+  border-left: 4px solid #ef4444;
+}
+
+.survival-checklist {
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  color: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  line-height: 1.5;
+}
+
+.survival-checklist li::marker {
+  color: #ef4444;
+  font-weight: 800;
+}
+
+.evacuation-box {
+  border-left: 4px solid #10b981;
+}
+
+.evacuation-checklist {
+  padding-left: 1.25rem;
+  font-size: 0.875rem;
+  color: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  line-height: 1.5;
+}
+
+.evacuation-checklist li::marker {
+  color: #10b981;
+  font-weight: 800;
+}
+
+.shelters-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.65rem;
+}
+
+.shelter-mini-card {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid #334155;
+  border-radius: 6px;
+  padding: 0.65rem 0.85rem;
+  transition: border-color 0.2s;
+}
+
+.shelter-mini-card:hover {
+  border-color: #10b981;
+}
+
+/* =============================================================
+   BHUMIRAKSHAK HERO — Energy Orb + Rotating Equatorial Ring
+   ============================================================= */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  background: #04060a;
+}
+
+.hero canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#stars { z-index: 1; }
+#ringBack { z-index: 2; }
+#orb { z-index: 3; }
+#ringFront { z-index: 4; }
+
+.hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  pointer-events: none;
+}
+
+.eyebrow {
+  color: #7fd8e8;
+  font-size: 12px;
+  letter-spacing: .32em;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  opacity: .85;
+}
+
+.hero-content h1 {
+  color: #f2fbf9;
+  font-size: clamp(40px, 8vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
+  text-shadow: 0 0 40px rgba(90, 220, 220, 0.25);
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.hero-content p {
+  color: #b9c9c2;
+  font-size: clamp(15px, 2vw, 19px);
+  max-width: 560px;
+  line-height: 1.6;
+  margin: 0 0 34px;
+}
+
+.cta {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #6fe0d0, #2f9fbf);
+  color: #04141a;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  box-shadow: 0 12px 30px rgba(47, 159, 191, .35);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(47, 159, 191, .5);
+  color: #04141a;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #6f8279;
+  font-size: 11px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  z-index: 10;
+  opacity: .7;
+  user-select: none;
+  transition: opacity 0.2s ease;
+}
+
+.scroll-hint:hover {
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .eyebrow { font-size: 10px; letter-spacing: .24em; }
+}
+
+/* =============================================================
+   Rotating Globe Portal Loading Screen (Transitions & Explorations)
+   ============================================================= */
+.portal-loading-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  background: #04060a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
+  overflow: hidden;
+}
+
+.portal-loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.portal-loader-canvases {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.portal-loader-canvases canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#loader-stars { z-index: 1; }
+#loader-ringBack { z-index: 2; }
+#loader-orb { z-index: 3; }
+#loader-ringFront { z-index: 4; }
+
+.portal-loader-content {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  max-width: 620px;
+  width: 90%;
+  pointer-events: none;
+}
+
+.portal-loader-eyebrow {
+  color: #7fd8e8;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.portal-loader-title {
+  color: #f2fbf9;
+  font-size: clamp(20px, 3.5vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 14px;
+  text-shadow: 0 0 35px rgba(90, 220, 220, 0.35);
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.portal-loader-pulse-track {
+  width: 220px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  margin: 0 auto 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.portal-loader-pulse-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, #38bdf8, #10b981, transparent);
+  border-radius: 999px;
+  animation: portalPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes portalPulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+.portal-loader-sub {
+  color: #94a3b8;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+
+

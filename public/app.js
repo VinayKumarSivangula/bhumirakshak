@@ -106,8 +106,10 @@ async function assessLocation(lat, lon, name) {
     if (json.success && json.data) {
       state.lastAssessmentData = json.data;
       state.lastWeatherData = json.weather;
+      state.verifiedFieldNotification = json.verifiedFieldNotification;
       renderAssessment(json.data, json.weather);
       updateMapMarker(lat, lon, name, json.data.risk);
+      renderVerifiedNotification(json.verifiedFieldNotification);
     }
   } catch (err) {
     console.error("Error assessing location risk:", err);
@@ -560,6 +562,8 @@ function setupModals() {
   }
 
   setupSavedLocations();
+  initPhotoScanner();
+  initCalamityModal();
 }
 
 // -------------------------------------------------------------
@@ -764,4 +768,418 @@ function showToast(msg) {
   toast.textContent = msg;
   toast.classList.remove("hidden");
   setTimeout(() => toast.classList.add("hidden"), 4000);
+}
+
+// -------------------------------------------------------------
+// 7. Verified Field Ground Sign Live Notification Banner
+// -------------------------------------------------------------
+function renderVerifiedNotification(notification) {
+  const banner = document.getElementById("verifiedAlertBanner");
+  if (!banner) return;
+
+  if (!notification) {
+    banner.classList.add("hidden");
+    banner.innerHTML = "";
+    return;
+  }
+
+  const signTitle = notification.signTitle || notification.locationName;
+  const distText = notification.distanceKm !== undefined ? `${notification.distanceKm} km from your assessed coordinates` : 'Nearby sector';
+  const diag = notification.calamityAnalysis;
+  const calamityLabel = diag ? diag.calamityType : 'Active Ground Movement Observed';
+  const threatSeverity = diag ? diag.threatSeverity.replace('_', ' ') : (notification.severity || 'HIGH');
+  const runoutInfo = diag && diag.rangeOfEffect ? `Downslope Runout: ${diag.rangeOfEffect.downslopeRunoutMeters}` : 'Imminent downslope hazard';
+
+  let photoSnippet = "";
+  if (notification.photoUrl) {
+    photoSnippet = `
+      <div class="field-alert-photo" style="cursor:pointer;" id="btnBannerPhotoPreview">
+        <img src="${notification.photoUrl}" alt="Field Evidence" style="width:120px; height:80px; object-fit:cover; border-radius:6px; border:1px solid #ef4444;">
+        <span style="font-size:0.65rem; color:#38bdf8; display:block; text-align:center; margin-top:2px;">🔍 Zoom Photo</span>
+      </div>
+    `;
+  }
+
+  banner.innerHTML = `
+    <div class="field-alert-inner">
+      <div class="field-alert-badge-row">
+        <span class="pulse-radar-tag">🚨 VERIFIED GROUND SIGN ALERT</span>
+        <span class="verified-source-tag">✓ Field-Verified Ground Sign</span>
+        <span class="time-tag">📍 ${distText}</span>
+      </div>
+
+      <div class="field-alert-main">
+        <div class="field-alert-text">
+          <h3 class="field-alert-title">${signTitle}</h3>
+          <p class="field-alert-meta">
+            <strong>Location:</strong> ${notification.locationName} &bull; 
+            <strong>Calamity Diagnosis:</strong> <span style="color:#fca5a5; font-weight:700;">${calamityLabel}</span> &bull; 
+            <strong>Severity:</strong> <span class="badge badge-danger" style="font-size:0.75rem;">${threatSeverity}</span>
+          </p>
+          <p class="field-alert-desc">
+            ${notification.description || 'Observable physical ground deformation registered by verified observers.'}
+          </p>
+          <div class="field-alert-runout">
+            <span style="color:#f59e0b; font-weight:600;">📏 Predicted Range:</span> ${runoutInfo}
+          </div>
+        </div>
+        ${photoSnippet}
+      </div>
+
+      <div class="field-alert-actions">
+        <button id="btnInspectCalamity" class="btn btn-danger btn-sm" style="background:#dc2626; color:#fff;">
+          <span>🔬</span> Inspect Calamity Diagnosis & Evacuation Plan
+        </button>
+        <a href="/rescue.html?lat=${notification.lat}&lon=${notification.lon}" class="btn btn-terrain btn-sm">
+          <span>🏃</span> Nearest Safe Shelters (${(notification.nearbyShelters || []).length} mapped)
+        </a>
+        <button id="btnDismissAlert" class="btn btn-outline btn-sm" style="margin-left: auto;">
+          ✕ Dismiss
+        </button>
+      </div>
+    </div>
+  `;
+
+  banner.classList.remove("hidden");
+
+  // Wire up alert action buttons
+  const btnInspect = document.getElementById("btnInspectCalamity");
+  if (btnInspect) {
+    btnInspect.onclick = () => {
+      openCalamityModal(
+        notification.calamityAnalysis,
+        notification.photoUrl,
+        notification.locationName,
+        notification.nearbyShelters || []
+      );
+    };
+  }
+
+  const btnPhoto = document.getElementById("btnBannerPhotoPreview");
+  if (btnPhoto && btnInspect) {
+    btnPhoto.onclick = () => btnInspect.click();
+  }
+
+  const btnDismiss = document.getElementById("btnDismissAlert");
+  if (btnDismiss) {
+    btnDismiss.onclick = () => {
+      banner.classList.add("hidden");
+    };
+  }
+}
+
+// -------------------------------------------------------------
+// 8. Instant Slope Photo Calamity Scanner
+// -------------------------------------------------------------
+function initPhotoScanner() {
+  const cameraInput = document.getElementById("homeCameraInput");
+  const uploadInput = document.getElementById("homeUploadInput");
+  const sampleChips = document.querySelectorAll(".btn-sample-chip");
+
+  if (cameraInput) {
+    cameraInput.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handlePhotoScanFile(e.target.files[0]);
+      }
+    });
+  }
+
+  if (uploadInput) {
+    uploadInput.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handlePhotoScanFile(e.target.files[0]);
+      }
+    });
+  }
+
+  sampleChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      const sample = chip.dataset.sample;
+      handleSampleScan(sample);
+    });
+  });
+}
+
+async function handlePhotoScanFile(file) {
+  if (!file || !file.type.startsWith("image/")) {
+    showToast("⚠️ Please select a valid photo file.");
+    return;
+  }
+
+  const scanningEl = document.getElementById("scannerScanning");
+  if (scanningEl) scanningEl.classList.remove("hidden");
+
+  try {
+    const compressedBase64 = await compressImageForScanner(file, 1000, 0.75);
+
+    const res = await fetch("/api/analyze-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        photoUrl: compressedBase64,
+        locationName: state.currentLocation ? state.currentLocation.name : "Analyzed Mountain Slope",
+        lat: state.currentLocation ? state.currentLocation.lat : undefined,
+        lon: state.currentLocation ? state.currentLocation.lon : undefined
+      })
+    });
+
+    if (!res.ok) throw new Error("Diagnostic request failed");
+    const json = await res.json();
+
+    if (json.success && json.diagnosis) {
+      showToast(`✅ Diagnosed: ${json.diagnosis.calamityType}`);
+      openCalamityModal(
+        json.diagnosis,
+        compressedBase64,
+        state.currentLocation ? state.currentLocation.name : "Mountain Slope",
+        json.nearbySafeShelters || []
+      );
+    }
+  } catch (err) {
+    console.error("Photo scan error:", err);
+    showToast("⚠️ Could not complete calamity diagnosis. Please try again.");
+  } finally {
+    if (scanningEl) scanningEl.classList.add("hidden");
+  }
+}
+
+async function handleSampleScan(sampleType) {
+  const scanningEl = document.getElementById("scannerScanning");
+  if (scanningEl) scanningEl.classList.remove("hidden");
+
+  // Select realistic ground sign sample descriptions
+  const sampleData = {
+    ground_cracks: {
+      signType: "ground_cracks",
+      description: "Severe en-echelon tensile fissures across mountain roadway with 12cm vertical scarp offset.",
+      photo: "images/warning_signs.jpg"
+    },
+    muddy_spring: {
+      signType: "muddy_spring",
+      description: "Sudden turbid brown mud slurry bubbling vigorously from natural hillside bedrock spring.",
+      photo: "images/warning_signs.jpg"
+    },
+    debris_flow: {
+      signType: "debris_flow",
+      description: "Fast-moving fluid saturated mud, tree trunks, and dislodged boulders rushing through gully.",
+      photo: "images/landslide_types.jpg"
+    },
+    wall_cracks: {
+      signType: "wall_cracks",
+      description: "Stone masonry retaining wall bulging outward 15cm with diagonal shear tension cracking.",
+      photo: "images/warning_signs.jpg"
+    }
+  };
+
+  const sample = sampleData[sampleType] || sampleData.ground_cracks;
+
+  try {
+    const res = await fetch("/api/analyze-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        signType: sample.signType,
+        description: sample.description,
+        locationName: state.currentLocation ? state.currentLocation.name : "Himalayan Sector",
+        lat: state.currentLocation ? state.currentLocation.lat : undefined,
+        lon: state.currentLocation ? state.currentLocation.lon : undefined
+      })
+    });
+
+    if (!res.ok) throw new Error("Sample analysis failed");
+    const json = await res.json();
+
+    if (json.success && json.diagnosis) {
+      showToast(`✅ Diagnosed: ${json.diagnosis.calamityType}`);
+      openCalamityModal(
+        json.diagnosis,
+        sample.photo,
+        state.currentLocation ? state.currentLocation.name : "Himalayan Sector",
+        json.nearbySafeShelters || []
+      );
+    }
+  } catch (err) {
+    console.error("Sample scan error:", err);
+    showToast("⚠️ Could not run sample diagnosis.");
+  } finally {
+    if (scanningEl) scanningEl.classList.add("hidden");
+  }
+}
+
+function compressImageForScanner(file, maxDimension = 1000, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// -------------------------------------------------------------
+// 9. Full AI Calamity Diagnosis Inspection Modal
+// -------------------------------------------------------------
+function initCalamityModal() {
+  const modal = document.getElementById("calamityModal");
+  const btnClose1 = document.getElementById("btnCloseCalamityModal");
+  const btnClose2 = document.getElementById("btnCloseCalamityModal2");
+
+  if (btnClose1 && modal) {
+    btnClose1.onclick = () => modal.classList.add("hidden");
+  }
+  if (btnClose2 && modal) {
+    btnClose2.onclick = () => modal.classList.add("hidden");
+  }
+  if (modal) {
+    modal.onclick = (e) => {
+      if (e.target === modal) modal.classList.add("hidden");
+    };
+  }
+}
+
+function openCalamityModal(diagnosis, photoUrl, locationName, nearbyShelters = []) {
+  const modal = document.getElementById("calamityModal");
+  if (!modal || !diagnosis) return;
+
+  // Header badges
+  const hazardCodeEl = document.getElementById("modalHazardCode");
+  if (hazardCodeEl) hazardCodeEl.textContent = diagnosis.hazardCode || "GSI-HAZARD-01";
+
+  const confEl = document.getElementById("modalConfidenceScore");
+  if (confEl) confEl.textContent = `Confidence: ${diagnosis.confidenceScore || 94}%`;
+
+  const sevEl = document.getElementById("modalThreatSeverity");
+  if (sevEl) sevEl.textContent = (diagnosis.threatSeverity || "HIGH_WARNING").replace('_', ' ');
+
+  // Title & Location
+  const titleEl = document.getElementById("modalCalamityTitle");
+  if (titleEl) titleEl.textContent = diagnosis.calamityType || "Geological Slope Instability";
+
+  const subEl = document.getElementById("modalLocationSubtitle");
+  if (subEl) subEl.textContent = `📍 ${locationName || 'Monitored Hillside'} | Diagnosed via ${diagnosis.engine || 'BhumiRakshak Geological Vision'}`;
+
+  // Photo
+  const photoEl = document.getElementById("modalPhotoPreview");
+  if (photoEl) {
+    photoEl.src = photoUrl || "images/warning_signs.jpg";
+  }
+
+  // Visual indicators list
+  const indList = document.getElementById("modalVisualIndicators");
+  if (indList) {
+    indList.innerHTML = "";
+    (diagnosis.visualIndicators || []).forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      indList.appendChild(li);
+    });
+  }
+
+  // Emergency summary
+  const sumEl = document.getElementById("modalEmergencySummary");
+  if (sumEl) sumEl.textContent = diagnosis.emergencyActionSummary || `🚨 ${diagnosis.threatSeverity}: Immediate lateral ridge evacuation advised.`;
+
+  // Range of effect
+  const runoutEl = document.getElementById("modalRunoutFootprint");
+  if (runoutEl) runoutEl.textContent = diagnosis.rangeOfEffect ? diagnosis.rangeOfEffect.downslopeRunoutMeters : "150m - 500m";
+
+  const speedEl = document.getElementById("modalPropagationSpeed");
+  if (speedEl) speedEl.textContent = diagnosis.rangeOfEffect ? diagnosis.rangeOfEffect.propagationSpeed : "Rapid";
+
+  const assetsList = document.getElementById("modalThreatenedAssets");
+  if (assetsList) {
+    assetsList.innerHTML = "";
+    const assets = diagnosis.rangeOfEffect ? (diagnosis.rangeOfEffect.threatenedAssets || []) : [];
+    assets.forEach(asset => {
+      const li = document.createElement("li");
+      li.textContent = asset;
+      assetsList.appendChild(li);
+    });
+  }
+
+  // Survival measures
+  const survList = document.getElementById("modalSurvivalMeasures");
+  if (survList) {
+    survList.innerHTML = "";
+    (diagnosis.survivalMeasures || []).forEach(m => {
+      const li = document.createElement("li");
+      li.textContent = m;
+      survList.appendChild(li);
+    });
+  }
+
+  // Evacuation measures
+  const evacList = document.getElementById("modalEvacuationMeasures");
+  if (evacList) {
+    evacList.innerHTML = "";
+    (diagnosis.evacuationMeasures || []).forEach(e => {
+      const li = document.createElement("li");
+      li.textContent = e;
+      evacList.appendChild(li);
+    });
+  }
+
+  // Nearby shelters mini grid
+  const sheltersContainer = document.getElementById("modalNearbySheltersList");
+  if (sheltersContainer) {
+    sheltersContainer.innerHTML = "";
+    if (!nearbyShelters || nearbyShelters.length === 0) {
+      sheltersContainer.innerHTML = `
+        <div style="font-size:0.825rem; color:#94a3b8; padding:0.5rem 0;">
+          Safe shelters are mapped across all hill sectors. Access the <a href="/rescue.html" style="color:#38bdf8;">Safe Shelters & SOS Locator</a> to view full list.
+        </div>
+      `;
+    } else {
+      nearbyShelters.slice(0, 3).forEach(shl => {
+        const card = document.createElement("div");
+        card.className = "shelter-mini-card";
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="font-size:0.85rem; color:#fff;">${shl.name}</strong>
+            <span class="badge badge-terrain" style="font-size:0.7rem;">${shl.distanceKm ? shl.distanceKm + ' km away' : 'Safe High Ground'}</span>
+          </div>
+          <p style="font-size:0.775rem; color:var(--text-muted); margin:0.25rem 0;">
+            ${shl.address || shl.sector} &bull; Capacity: ${shl.capacityPeople || 200} citizens
+          </p>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.35rem;">
+            <span style="font-size:0.75rem; color:#6ee7b7;">📞 ${shl.contactPhone || '112'}</span>
+            <a href="/rescue.html?lat=${shl.lat}&lon=${shl.lon}" class="btn btn-sm btn-outline" style="font-size:0.7rem; padding:0.15rem 0.5rem;">
+              Directions ↗
+            </a>
+          </div>
+        `;
+        sheltersContainer.appendChild(card);
+      });
+    }
+  }
+
+  // Broadcast SOS button in modal
+  const btnSos = document.getElementById("btnModalBroadcastSos");
+  if (btnSos && state.currentLocation) {
+    btnSos.href = `/rescue.html?lat=${state.currentLocation.lat}&lon=${state.currentLocation.lon}&hazard=${encodeURIComponent(diagnosis.calamityType)}`;
+  }
+
+  modal.classList.remove("hidden");
 }

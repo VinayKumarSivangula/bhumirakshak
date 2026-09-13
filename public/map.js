@@ -121,6 +121,7 @@ async function loadMapData() {
           iconSize: [14, 14]
         });
 
+        const photoTag = rep.photoUrl ? `<img src="${rep.photoUrl}" alt="Evidence" style="width:100%; max-height:110px; object-fit:cover; border-radius:4px; margin-top:6px; border:1px solid #cbd5e1;">` : '';
         const m = L.marker([rep.lat, rep.lon], { icon });
         m.bindPopup(`
           <div style="font-size:0.85rem; max-width:240px;">
@@ -128,6 +129,7 @@ async function loadMapData() {
             <strong>${rep.signTitle}</strong><br>
             <span>📍 ${rep.locationName}</span><br>
             <span>👤 Reported by: ${rep.reportedBy}</span><br>
+            ${photoTag}
             <p style="margin-top:4px; font-size:0.8rem; color:#475569;">${rep.description}</p>
           </div>
         `);
